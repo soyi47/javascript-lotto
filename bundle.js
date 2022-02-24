@@ -97,7 +97,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/util */ "./src/js/utils/util.js");
 /* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./validation */ "./src/js/validation.js");
 /* harmony import */ var _LottoManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LottoManager */ "./src/js/LottoManager.js");
-/* harmony import */ var _view_LottoMachineView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./view/LottoMachineView */ "./src/js/view/LottoMachineView.js");
+/* harmony import */ var _views_LottoMachineView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/LottoMachineView */ "./src/js/views/LottoMachineView.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -115,7 +115,7 @@ var LottoMachine = /*#__PURE__*/function () {
     _classCallCheck(this, LottoMachine);
 
     this.lottoManager = new _LottoManager__WEBPACK_IMPORTED_MODULE_3__["default"]();
-    this.lottoMachineView = new _view_LottoMachineView__WEBPACK_IMPORTED_MODULE_4__["default"]();
+    this.lottoMachineView = new _views_LottoMachineView__WEBPACK_IMPORTED_MODULE_4__["default"]();
     this.setEvent();
     this.initialize();
   }
@@ -394,10 +394,10 @@ function validateCharge(charge) {
 
 /***/ }),
 
-/***/ "./src/js/view/LottoMachineView.js":
-/*!*****************************************!*\
-  !*** ./src/js/view/LottoMachineView.js ***!
-  \*****************************************/
+/***/ "./src/js/views/LottoMachineView.js":
+/*!******************************************!*\
+  !*** ./src/js/views/LottoMachineView.js ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -405,7 +405,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ LottoMachineView)
 /* harmony export */ });
 /* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
-/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template */ "./src/js/view/template.js");
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template */ "./src/js/views/template.js");
 /* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -465,10 +465,10 @@ var LottoMachineView = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/view/template.js":
-/*!*********************************!*\
-  !*** ./src/js/view/template.js ***!
-  \*********************************/
+/***/ "./src/js/views/template.js":
+/*!**********************************!*\
+  !*** ./src/js/views/template.js ***!
+  \**********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
