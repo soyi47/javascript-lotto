@@ -2,15 +2,15 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/js/Lotto.js":
-/*!*************************!*\
-  !*** ./src/js/Lotto.js ***!
-  \*************************/
+/***/ "./src/js/LotteryTicket.js":
+/*!*********************************!*\
+  !*** ./src/js/LotteryTicket.js ***!
+  \*********************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ Lotto)
+/* harmony export */   "default": () => (/* binding */ LotteryTicket)
 /* harmony export */ });
 /* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants/constants */ "./src/js/constants/constants.js");
 /* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/util */ "./src/js/utils/util.js");
@@ -39,19 +39,21 @@ function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.
 
 var _numbers = /*#__PURE__*/new WeakMap();
 
-var Lotto = /*#__PURE__*/function () {
-  function Lotto() {
-    _classCallCheck(this, Lotto);
+var LotteryTicket = /*#__PURE__*/function () {
+  function LotteryTicket() {
+    var numbers = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.generateNumbersAutomatically();
+
+    _classCallCheck(this, LotteryTicket);
 
     _classPrivateFieldInitSpec(this, _numbers, {
       writable: true,
       value: void 0
     });
 
-    _classPrivateFieldSet(this, _numbers, this.generateNumbersAutomatically());
+    _classPrivateFieldSet(this, _numbers, numbers);
   }
 
-  _createClass(Lotto, [{
+  _createClass(LotteryTicket, [{
     key: "numbers",
     get: function get() {
       return _classPrivateFieldGet(this, _numbers);
@@ -59,130 +61,32 @@ var Lotto = /*#__PURE__*/function () {
   }, {
     key: "generateNumbersAutomatically",
     value: function generateNumbersAutomatically() {
-      var numbers = [];
-
-      var _loop = function _loop() {
-        var randomNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.generateRandomInRange)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTO_NUMBER.MIN, _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTO_NUMBER.MAX);
-        if (!numbers.find(function (number) {
-          return number === randomNumber;
-        })) numbers.push(randomNumber);
-      };
-
-      while (numbers.length !== _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTO_NUMBER.LENGTH) {
-        _loop();
-      }
-
-      return numbers;
+      return (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.generateIntegerArray)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.MAX).sort(function () {
+        return Math.random() - 0.5;
+      }).slice(0, _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.LENGTH);
     }
   }]);
 
-  return Lotto;
+  return LotteryTicket;
 }();
 
 
 
 /***/ }),
 
-/***/ "./src/js/LottoMachine.js":
-/*!********************************!*\
-  !*** ./src/js/LottoMachine.js ***!
-  \********************************/
+/***/ "./src/js/LotteryTicketManager.js":
+/*!****************************************!*\
+  !*** ./src/js/LotteryTicketManager.js ***!
+  \****************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ LottoMachine)
+/* harmony export */   "default": () => (/* binding */ LotteryTicketManager)
 /* harmony export */ });
 /* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants/constants */ "./src/js/constants/constants.js");
-/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils/util */ "./src/js/utils/util.js");
-/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./validation */ "./src/js/validation.js");
-/* harmony import */ var _LottoManager__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./LottoManager */ "./src/js/LottoManager.js");
-/* harmony import */ var _views_LottoMachineView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./views/LottoMachineView */ "./src/js/views/LottoMachineView.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-
-
-
-
-
-
-var LottoMachine = /*#__PURE__*/function () {
-  function LottoMachine() {
-    _classCallCheck(this, LottoMachine);
-
-    this.lottoManager = new _LottoManager__WEBPACK_IMPORTED_MODULE_3__["default"]();
-    this.lottoMachineView = new _views_LottoMachineView__WEBPACK_IMPORTED_MODULE_4__["default"]();
-    this.setEvent();
-    this.initialize();
-  }
-
-  _createClass(LottoMachine, [{
-    key: "setEvent",
-    value: function setEvent() {
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.SELECTOR.CHARGE_SUBMIT_FORM).addEventListener('submit', this.onSubmitCharge.bind(this));
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.SELECTOR.SHOW_NUMBER_TOGGLE_INPUT).addEventListener('click', this.reverseLottoStyle.bind(this));
-    }
-  }, {
-    key: "initialize",
-    value: function initialize() {
-      this.lottoMachineView.updateLottoList(this.lottoManager.lottos);
-    }
-  }, {
-    key: "onSubmitCharge",
-    value: function onSubmitCharge(event) {
-      event.preventDefault();
-      var chargeInputNumber = Number((0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.SELECTOR.CHARGE_INPUT).value);
-
-      try {
-        (0,_validation__WEBPACK_IMPORTED_MODULE_2__["default"])(chargeInputNumber);
-      } catch (error) {
-        alert(error.message);
-        return;
-      }
-
-      this.purchase(chargeInputNumber);
-    }
-  }, {
-    key: "purchase",
-    value: function purchase(chargeInputNumber) {
-      var _divider = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.divider)(chargeInputNumber, _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTO_PRICE),
-          newLottoCount = _divider.quotient,
-          remainCharge = _divider.remainder;
-
-      this.lottoManager.generateNewLottos(newLottoCount);
-      this.lottoMachineView.updateLottoList(this.lottoManager.lottos);
-      this.lottoMachineView.updateChargeInput(remainCharge);
-    }
-  }, {
-    key: "reverseLottoStyle",
-    value: function reverseLottoStyle() {
-      var style = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.SELECTOR.SHOW_NUMBER_TOGGLE_INPUT).checked ? 'number' : 'icon';
-      this.lottoMachineView.switchLottoListStyle(style);
-    }
-  }]);
-
-  return LottoMachine;
-}();
-
-
-
-/***/ }),
-
-/***/ "./src/js/LottoManager.js":
-/*!********************************!*\
-  !*** ./src/js/LottoManager.js ***!
-  \********************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ LottoManager)
-/* harmony export */ });
-/* harmony import */ var _Lotto__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Lotto */ "./src/js/Lotto.js");
+/* harmony import */ var _LotteryTicket__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./LotteryTicket */ "./src/js/LotteryTicket.js");
+/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils/util */ "./src/js/utils/util.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -205,24 +109,76 @@ function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.
 
 
 
-var _lottos = /*#__PURE__*/new WeakMap();
 
-var LottoManager = /*#__PURE__*/function () {
-  function LottoManager() {
-    _classCallCheck(this, LottoManager);
 
-    _classPrivateFieldInitSpec(this, _lottos, {
+var _tickets = /*#__PURE__*/new WeakMap();
+
+var LotteryTicketManager = /*#__PURE__*/function () {
+  function LotteryTicketManager() {
+    _classCallCheck(this, LotteryTicketManager);
+
+    _classPrivateFieldInitSpec(this, _tickets, {
       writable: true,
       value: void 0
     });
 
-    _classPrivateFieldSet(this, _lottos, []);
+    _classPrivateFieldSet(this, _tickets, []);
   }
 
-  _createClass(LottoManager, [{
-    key: "lottos",
+  _createClass(LotteryTicketManager, [{
+    key: "tickets",
     get: function get() {
-      return _classPrivateFieldGet(this, _lottos);
+      return _classPrivateFieldGet(this, _tickets);
+    }
+  }, {
+    key: "initialize",
+    value: function initialize() {
+      _classPrivateFieldGet(this, _tickets).length = 0;
+    }
+  }, {
+    key: "purchaseLotteryTicket",
+    value: function purchaseLotteryTicket(charge) {
+      var _this$calculateForPur = this.calculateForPurchase(charge),
+          newTicketCount = _this$calculateForPur.newTicketCount,
+          remainCharge = _this$calculateForPur.remainCharge;
+
+      if (newTicketCount === 0) {
+        alert("\uBCF5\uAD8C\uC740 \uCD5C\uB300 ".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MAX_NUMBER_PURCHASE, "\uC7A5\uAE4C\uC9C0 \uAD6C\uC785 \uAC00\uB2A5\uD569\uB2C8\uB2E4. \uB354 \uC774\uC0C1 \uAD6C\uC785\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."));
+      }
+
+      this.generateNewLottos(newTicketCount);
+      return {
+        newTicketCount: newTicketCount,
+        remainCharge: remainCharge
+      };
+    }
+  }, {
+    key: "calculateForPurchase",
+    value: function calculateForPurchase(charge) {
+      var availableTicketNumber = _constants_constants__WEBPACK_IMPORTED_MODULE_0__.MAX_NUMBER_PURCHASE - _classPrivateFieldGet(this, _tickets).length;
+
+      var chargeDivideResult = (0,_utils_util__WEBPACK_IMPORTED_MODULE_2__.divider)(charge, _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_PRICE);
+      var newTicketCount = this.calculateNewTicketCount(availableTicketNumber, chargeDivideResult);
+      var remainCharge = this.calculateRemainCharge(availableTicketNumber, chargeDivideResult);
+      return {
+        newTicketCount: newTicketCount,
+        remainCharge: remainCharge
+      };
+    }
+  }, {
+    key: "calculateNewTicketCount",
+    value: function calculateNewTicketCount(availableTicketNumber, chargeDivideResult) {
+      var quotient = chargeDivideResult.quotient;
+      if (availableTicketNumber > quotient) return quotient;
+      return availableTicketNumber;
+    }
+  }, {
+    key: "calculateRemainCharge",
+    value: function calculateRemainCharge(availableTicketNumber, chargeDivideResult) {
+      var quotient = chargeDivideResult.quotient,
+          remainder = chargeDivideResult.remainder;
+      if (availableTicketNumber > quotient) return remainder;
+      return (quotient - availableTicketNumber) * _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_PRICE + remainder;
     }
   }, {
     key: "generateNewLottos",
@@ -230,17 +186,160 @@ var LottoManager = /*#__PURE__*/function () {
       var currentCount = 0;
 
       while (currentCount < count) {
-        _classPrivateFieldGet(this, _lottos).push(new _Lotto__WEBPACK_IMPORTED_MODULE_0__["default"]());
+        _classPrivateFieldGet(this, _tickets).push(new _LotteryTicket__WEBPACK_IMPORTED_MODULE_1__["default"]());
 
         currentCount += 1;
       }
     }
+  }, {
+    key: "checkPurchasedTicketExist",
+    value: function checkPurchasedTicketExist() {
+      if (_classPrivateFieldGet(this, _tickets).length === 0) throw new Error(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.NO_PURCHASED_TICKET);
+    }
   }]);
 
-  return LottoManager;
+  return LotteryTicketManager;
 }();
 
 
+
+/***/ }),
+
+/***/ "./src/js/LottoMachine.js":
+/*!********************************!*\
+  !*** ./src/js/LottoMachine.js ***!
+  \********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ LottoMachine)
+/* harmony export */ });
+/* harmony import */ var _LotteryTicketManager__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./LotteryTicketManager */ "./src/js/LotteryTicketManager.js");
+/* harmony import */ var _views_LottoMachineView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./views/LottoMachineView */ "./src/js/views/LottoMachineView.js");
+/* harmony import */ var _validation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./validation */ "./src/js/validation.js");
+/* harmony import */ var _checkResult__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./checkResult */ "./src/js/checkResult.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+
+
+
+
+var LottoMachine = /*#__PURE__*/function () {
+  function LottoMachine() {
+    _classCallCheck(this, LottoMachine);
+
+    this.lotteryTicketManager = new _LotteryTicketManager__WEBPACK_IMPORTED_MODULE_0__["default"]();
+    this.lottoMachineView = new _views_LottoMachineView__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.bindEvent();
+  }
+
+  _createClass(LottoMachine, [{
+    key: "bindEvent",
+    value: function bindEvent() {
+      window.addEventListener('purchaseTicket', this.purchaseLotteryTicket.bind(this));
+      window.addEventListener('checkWinningResult', this.checkWinningResult.bind(this));
+      window.addEventListener('restart', this.restart.bind(this));
+    }
+  }, {
+    key: "purchaseLotteryTicket",
+    value: function purchaseLotteryTicket(event) {
+      var chargeInputValue = event.detail.chargeInputValue;
+
+      try {
+        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateCharge)(chargeInputValue);
+      } catch (error) {
+        alert(error.message);
+        return;
+      }
+
+      var _this$lotteryTicketMa = this.lotteryTicketManager.purchaseLotteryTicket(chargeInputValue),
+          remainCharge = _this$lotteryTicketMa.remainCharge;
+
+      this.lottoMachineView.updateOnPurchase(this.lotteryTicketManager.tickets, remainCharge);
+    }
+  }, {
+    key: "checkWinningResult",
+    value: function checkWinningResult(event) {
+      var winningNumberInputValues = event.detail.winningNumberInputValues;
+
+      try {
+        this.lotteryTicketManager.checkPurchasedTicketExist();
+        (0,_validation__WEBPACK_IMPORTED_MODULE_2__.validateWinningNumbers)(winningNumberInputValues);
+      } catch (error) {
+        alert(error.message);
+        return;
+      }
+
+      var winningResult = this.calculateWinningResult(winningNumberInputValues);
+      this.lottoMachineView.updateOnCheckWinningResult(winningResult);
+    }
+  }, {
+    key: "restart",
+    value: function restart() {
+      this.lotteryTicketManager.initialize();
+      this.lottoMachineView.initialize(this.lotteryTicketManager.tickets);
+    }
+  }, {
+    key: "calculateWinningResult",
+    value: function calculateWinningResult(winningNumberInputValues) {
+      var winningNumbers = winningNumberInputValues.slice(0, 6);
+      var bonusNumber = winningNumberInputValues[winningNumberInputValues.length - 1];
+      var matchResult = (0,_checkResult__WEBPACK_IMPORTED_MODULE_3__.calculateMatchResult)(this.lotteryTicketManager.tickets, winningNumbers, bonusNumber);
+      var profitRatio = (0,_checkResult__WEBPACK_IMPORTED_MODULE_3__.calculateProfitRatio)(this.lotteryTicketManager.tickets.length, matchResult) || 0;
+      return {
+        matchResult: matchResult,
+        profitRatio: profitRatio
+      };
+    }
+  }]);
+
+  return LottoMachine;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/checkResult.js":
+/*!*******************************!*\
+  !*** ./src/js/checkResult.js ***!
+  \*******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "countMatchNumber": () => (/* binding */ countMatchNumber),
+/* harmony export */   "calculateMatchResult": () => (/* binding */ calculateMatchResult),
+/* harmony export */   "calculateProfitRatio": () => (/* binding */ calculateProfitRatio)
+/* harmony export */ });
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants/constants */ "./src/js/constants/constants.js");
+
+var countMatchNumber = function countMatchNumber(ticketNumber, winningNumber) {
+  return ticketNumber.filter(function (number) {
+    return winningNumber.includes(number);
+  }).length;
+};
+var calculateMatchResult = function calculateMatchResult(tickets, winningNumber, bonusNumber) {
+  var result = new Array(5).fill(0);
+  tickets.forEach(function (ticket) {
+    var matchResult = countMatchNumber(ticket.numbers, winningNumber);
+    if (matchResult < 3) return;
+    if (matchResult === 5 && ticket.numbers.includes(bonusNumber)) matchResult = 'BONUS';
+    result[_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MATCH_RESULT_INDEX[matchResult]] += 1;
+  });
+  return result;
+};
+var calculateProfitRatio = function calculateProfitRatio(purchasedTicketCount, matchResult) {
+  var purchaseAmount = purchasedTicketCount * _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_PRICE;
+  var prizeMoney = _constants_constants__WEBPACK_IMPORTED_MODULE_0__.PRIZE_MONEY[3] * matchResult[_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MATCH_RESULT_INDEX[3]] + _constants_constants__WEBPACK_IMPORTED_MODULE_0__.PRIZE_MONEY[4] * matchResult[_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MATCH_RESULT_INDEX[4]] + _constants_constants__WEBPACK_IMPORTED_MODULE_0__.PRIZE_MONEY[5] * matchResult[_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MATCH_RESULT_INDEX[5]] + _constants_constants__WEBPACK_IMPORTED_MODULE_0__.PRIZE_MONEY.BONUS * matchResult[_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MATCH_RESULT_INDEX.BONUS] + _constants_constants__WEBPACK_IMPORTED_MODULE_0__.PRIZE_MONEY[6] * matchResult[_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MATCH_RESULT_INDEX[6]];
+  return prizeMoney / purchaseAmount * 100;
+};
 
 /***/ }),
 
@@ -252,91 +351,47 @@ var LottoManager = /*#__PURE__*/function () {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "LOTTERY_TICKET_PRICE": () => (/* binding */ LOTTERY_TICKET_PRICE),
+/* harmony export */   "LOTTERY_TICKET_NUMBER": () => (/* binding */ LOTTERY_TICKET_NUMBER),
+/* harmony export */   "MAX_NUMBER_PURCHASE": () => (/* binding */ MAX_NUMBER_PURCHASE),
 /* harmony export */   "MIN_CHARGE_INPUT": () => (/* binding */ MIN_CHARGE_INPUT),
-/* harmony export */   "LOTTO_PRICE": () => (/* binding */ LOTTO_PRICE),
-/* harmony export */   "LOTTO_NUMBER": () => (/* binding */ LOTTO_NUMBER),
+/* harmony export */   "MAX_CHARGE_INPUT": () => (/* binding */ MAX_CHARGE_INPUT),
 /* harmony export */   "ERROR_MESSAGE": () => (/* binding */ ERROR_MESSAGE),
-/* harmony export */   "SELECTOR": () => (/* binding */ SELECTOR)
+/* harmony export */   "MATCH_RESULT_INDEX": () => (/* binding */ MATCH_RESULT_INDEX),
+/* harmony export */   "PRIZE_MONEY": () => (/* binding */ PRIZE_MONEY)
 /* harmony export */ });
-var MIN_CHARGE_INPUT = 1000;
-var LOTTO_PRICE = 1000;
-var LOTTO_NUMBER = {
+var LOTTERY_TICKET_PRICE = 1000;
+var LOTTERY_TICKET_NUMBER = {
   MIN: 1,
   MAX: 45,
   LENGTH: 6
 };
+var MAX_NUMBER_PURCHASE = 5;
+var MIN_CHARGE_INPUT = 1000;
+var MAX_CHARGE_INPUT = 5000;
 var ERROR_MESSAGE = {
-  INTEGER_CHARGE_INPUT: '구입할 금액은 정수로 입력해주세요.',
-  MIN_CHARGE_INPUT: "\uAD6C\uC785\uD560 \uAE08\uC561\uC744 ".concat(MIN_CHARGE_INPUT, "\uC6D0 \uC774\uC0C1 \uC785\uB825\uD574\uC8FC\uC138\uC694. ")
+  CHARGE_INPUT_NOT_INTEGER: '구입할 금액은 정수로 입력해주세요.',
+  CHARGE_INPUT_NOT_IN_RANGE: "\uAD6C\uC785\uD560 \uAE08\uC561\uC740 ".concat(MIN_CHARGE_INPUT, "\uC6D0 \uC774\uC0C1, ").concat(MAX_CHARGE_INPUT, "\uC6D0 \uC774\uD558\uB85C \uC785\uB825\uD574\uC8FC\uC138\uC694. "),
+  WINNING_NUMBERS_INSUFFICIENT: '당첨 번호 6개, 보너스 번호 1개를 입력해주세요.',
+  WINNING_NUMBERS_NOT_INTEGER: '당첨 번호와 보너스 번호는 정수로 입력해주세요.',
+  WINNING_NUMBERS_NOT_IN_RANGE: '당첨 번호와 보너스 번호는 1 이상 45 이하 범위 내로 입력해주세요.',
+  WINNING_NUMBERS_DUPLICATED: '당첨 번호와 보너스 번호에 중복이 있습니다.',
+  NO_PURCHASED_TICKET: '구입한 티켓이 없습니다.'
 };
-var SELECTOR = {
-  CHARGE_SUBMIT_FORM: '#charge-submit-form',
-  CHARGE_INPUT: '#charge-input',
-  SHOW_NUMBER_TOGGLE_INPUT: '#show-number-toggle-input',
-  LOTTO_LIST_NUMBER: '#lotto-list-number',
-  LOTTO_TOTAL_NUMBER: '#lotto-total-number',
-  LOTTO_LIST_ICON: '#lotto-list-icon'
+var MATCH_RESULT_INDEX = {
+  3: 0,
+  4: 1,
+  5: 2,
+  BONUS: 3,
+  6: 4
 };
-
-/***/ }),
-
-/***/ "./src/js/utils/ValidationError.js":
-/*!*****************************************!*\
-  !*** ./src/js/utils/ValidationError.js ***!
-  \*****************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ ValidationError)
-/* harmony export */ });
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _wrapNativeSuper(Class) { var _cache = typeof Map === "function" ? new Map() : undefined; _wrapNativeSuper = function _wrapNativeSuper(Class) { if (Class === null || !_isNativeFunction(Class)) return Class; if (typeof Class !== "function") { throw new TypeError("Super expression must either be null or a function"); } if (typeof _cache !== "undefined") { if (_cache.has(Class)) return _cache.get(Class); _cache.set(Class, Wrapper); } function Wrapper() { return _construct(Class, arguments, _getPrototypeOf(this).constructor); } Wrapper.prototype = Object.create(Class.prototype, { constructor: { value: Wrapper, enumerable: false, writable: true, configurable: true } }); return _setPrototypeOf(Wrapper, Class); }; return _wrapNativeSuper(Class); }
-
-function _construct(Parent, args, Class) { if (_isNativeReflectConstruct()) { _construct = Reflect.construct; } else { _construct = function _construct(Parent, args, Class) { var a = [null]; a.push.apply(a, args); var Constructor = Function.bind.apply(Parent, a); var instance = new Constructor(); if (Class) _setPrototypeOf(instance, Class.prototype); return instance; }; } return _construct.apply(null, arguments); }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _isNativeFunction(fn) { return Function.toString.call(fn).indexOf("[native code]") !== -1; }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var ValidationError = /*#__PURE__*/function (_Error) {
-  _inherits(ValidationError, _Error);
-
-  var _super = _createSuper(ValidationError);
-
-  function ValidationError(message) {
-    var _this;
-
-    _classCallCheck(this, ValidationError);
-
-    _this = _super.call(this, message);
-    _this.name = _this.constructor.name;
-    return _this;
-  }
-
-  return _createClass(ValidationError);
-}( /*#__PURE__*/_wrapNativeSuper(Error));
-
-
+var PRIZE_MONEY = {
+  3: 5000,
+  4: 50000,
+  5: 1500000,
+  BONUS: 30000000,
+  6: 2000000000
+};
 
 /***/ }),
 
@@ -350,7 +405,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "$": () => (/* binding */ $),
 /* harmony export */   "$$": () => (/* binding */ $$),
-/* harmony export */   "generateRandomInRange": () => (/* binding */ generateRandomInRange),
+/* harmony export */   "generateIntegerArray": () => (/* binding */ generateIntegerArray),
 /* harmony export */   "divider": () => (/* binding */ divider)
 /* harmony export */ });
 var $ = function $(selector) {
@@ -361,8 +416,14 @@ var $$ = function $$(selector) {
   var node = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
   return node.querySelectorAll(selector);
 };
-var generateRandomInRange = function generateRandomInRange(min, max) {
-  return Math.floor(Math.random() * (max + 1 - min)) + min;
+var generateIntegerArray = function generateIntegerArray(end) {
+  var start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+  var emptyArray = [];
+  emptyArray.length = end - start + 1;
+  emptyArray.fill(null);
+  return emptyArray.map(function (_, index) {
+    return index + start;
+  });
 };
 var divider = function divider(dividend, divisor) {
   return {
@@ -381,16 +442,55 @@ var divider = function divider(dividend, divisor) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ validateCharge)
+/* harmony export */   "validateCharge": () => (/* binding */ validateCharge),
+/* harmony export */   "validateWinningNumbers": () => (/* binding */ validateWinningNumbers)
 /* harmony export */ });
-/* harmony import */ var _utils_ValidationError__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils/ValidationError */ "./src/js/utils/ValidationError.js");
-/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./constants/constants */ "./src/js/constants/constants.js");
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./constants/constants */ "./src/js/constants/constants.js");
 
 
-function validateCharge(charge) {
-  if (!Number.isInteger(charge)) throw new _utils_ValidationError__WEBPACK_IMPORTED_MODULE_0__["default"](_constants_constants__WEBPACK_IMPORTED_MODULE_1__.ERROR_MESSAGE.INTEGER_CHARGE_INPUT);
-  if (charge < _constants_constants__WEBPACK_IMPORTED_MODULE_1__.MIN_CHARGE_INPUT) throw new _utils_ValidationError__WEBPACK_IMPORTED_MODULE_0__["default"](_constants_constants__WEBPACK_IMPORTED_MODULE_1__.ERROR_MESSAGE.MIN_CHARGE_INPUT);
-}
+var hasDuplicates = function hasDuplicates(arr) {
+  return new Set(arr).size !== arr.length;
+};
+
+var isNotInteger = function isNotInteger(value) {
+  return !Number.isInteger(value);
+};
+
+var isChargeOutOfRange = function isChargeOutOfRange(charge) {
+  return charge < _constants_constants__WEBPACK_IMPORTED_MODULE_0__.MIN_CHARGE_INPUT || charge > _constants_constants__WEBPACK_IMPORTED_MODULE_0__.MAX_CHARGE_INPUT;
+};
+
+var validateCharge = function validateCharge(charge) {
+  if (isNotInteger(charge)) throw new Error(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.CHARGE_INPUT_NOT_INTEGER);
+  if (isChargeOutOfRange(charge)) throw new Error(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.CHARGE_INPUT_NOT_IN_RANGE);
+};
+
+var isWinningNumberOutOfRange = function isWinningNumberOutOfRange(winningNumber) {
+  return winningNumber < _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.MIN || winningNumber > _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.MAX;
+};
+
+var isInsufficientInputNumber = function isInsufficientInputNumber(winningNumbers) {
+  return winningNumbers.length !== 7;
+};
+
+var someWinningNumber = function someWinningNumber(validateFunc) {
+  return function (winningNumbers) {
+    return winningNumbers.some(validateFunc);
+  };
+};
+
+var hasNotIntegerNumber = someWinningNumber(function (number) {
+  return isNotInteger(number);
+});
+var hasNumberOutOfRange = someWinningNumber(function (number) {
+  return isWinningNumberOutOfRange(number);
+});
+var validateWinningNumbers = function validateWinningNumbers(winningNumbers) {
+  if (isInsufficientInputNumber(winningNumbers)) throw new Error(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.WINNING_NUMBERS_INSUFFICIENT);
+  if (hasDuplicates(winningNumbers)) throw new Error(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.WINNING_NUMBERS_DUPLICATED);
+  if (hasNotIntegerNumber(winningNumbers)) throw new Error(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.WINNING_NUMBERS_NOT_INTEGER);
+  if (hasNumberOutOfRange(winningNumbers)) throw new Error(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.WINNING_NUMBERS_NOT_IN_RANGE);
+};
 
 /***/ }),
 
@@ -404,9 +504,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ LottoMachineView)
 /* harmony export */ });
-/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
-/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template */ "./src/js/views/template.js");
-/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
+/* harmony import */ var _WinningResultSectionView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WinningResultSectionView */ "./src/js/views/WinningResultSectionView.js");
+/* harmony import */ var _PurchaseTicketSectionView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PurchaseTicketSectionView */ "./src/js/views/PurchaseTicketSectionView.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -416,49 +515,317 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
 var LottoMachineView = /*#__PURE__*/function () {
   function LottoMachineView() {
     _classCallCheck(this, LottoMachineView);
 
-    this.showLottoList = {
-      icon: this.showLottoIconList,
-      number: this.showLottoNumberList
-    };
+    this.purchaseTicketSectionView = new _PurchaseTicketSectionView__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.winningResultSectionView = new _WinningResultSectionView__WEBPACK_IMPORTED_MODULE_0__["default"]();
   }
 
   _createClass(LottoMachineView, [{
-    key: "updateChargeInput",
-    value: function updateChargeInput(value) {
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.CHARGE_INPUT).value = value;
+    key: "initialize",
+    value: function initialize(lottos) {
+      this.purchaseTicketSectionView.initialize(lottos);
+      this.winningResultSectionView.initialize();
     }
   }, {
-    key: "switchLottoListStyle",
-    value: function switchLottoListStyle(style) {
-      this.showLottoList[style]();
+    key: "updateOnPurchase",
+    value: function updateOnPurchase(tickets, charge) {
+      this.purchaseTicketSectionView.updateOnPurchase(tickets, charge);
+      this.winningResultSectionView.updateOnPurchase(tickets);
     }
   }, {
-    key: "updateLottoList",
-    value: function updateLottoList(lottos) {
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.LOTTO_TOTAL_NUMBER).innerHTML = (0,_template__WEBPACK_IMPORTED_MODULE_1__.lottoTotalNumber)(lottos.length);
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.LOTTO_LIST_ICON).innerHTML = _template__WEBPACK_IMPORTED_MODULE_1__.lottoListTemplate.icon(lottos.length);
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.LOTTO_LIST_NUMBER).innerHTML = _template__WEBPACK_IMPORTED_MODULE_1__.lottoListTemplate.number(lottos);
-    }
-  }, {
-    key: "showLottoIconList",
-    value: function showLottoIconList() {
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.LOTTO_LIST_ICON).classList.remove('display-none');
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.LOTTO_LIST_NUMBER).classList.add('display-none');
-    }
-  }, {
-    key: "showLottoNumberList",
-    value: function showLottoNumberList() {
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.LOTTO_LIST_ICON).classList.add('display-none');
-      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)(_constants_constants__WEBPACK_IMPORTED_MODULE_2__.SELECTOR.LOTTO_LIST_NUMBER).classList.remove('display-none');
+    key: "updateOnCheckWinningResult",
+    value: function updateOnCheckWinningResult(winningResult) {
+      this.winningResultSectionView.updateOnCheckWinningResult(winningResult);
     }
   }]);
 
   return LottoMachineView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/views/PurchaseTicketSectionView.js":
+/*!***************************************************!*\
+  !*** ./src/js/views/PurchaseTicketSectionView.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PurchaseTicketSectionView)
+/* harmony export */ });
+/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template */ "./src/js/views/template.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+
+
+var CLASS_DISPLAY_NONE = 'display-none';
+
+var PurchaseTicketSectionView = /*#__PURE__*/function () {
+  function PurchaseTicketSectionView() {
+    _classCallCheck(this, PurchaseTicketSectionView);
+
+    this.purchaseTicketSection = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#purchase-ticket-section');
+    this.chargeSubmitForm = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#charge-submit-form', this.purchaseTicketSection);
+    this.chargeInput = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('input', this.chargeSubmitForm);
+    this.chargeSubmitButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('button', this.chargeSubmitForm);
+    this.ticketListStyleToggleContainer = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#show-number-toggle-container', this.purchaseTicketSection);
+    this.ticketListStyleToggleInput = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#show-number-toggle-input', this.ticketListStyleToggleContainer);
+    this.totalPurchasedTicketNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-total-number', this.purchaseTicketSection);
+    this.ticketListIcon = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-list-icon', this.purchaseTicketSection);
+    this.ticketListNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-list-number', this.purchaseTicketSection);
+    this.bindEvent();
+  }
+
+  _createClass(PurchaseTicketSectionView, [{
+    key: "initialize",
+    value: function initialize(tickets) {
+      this.chargeInput.value = '';
+      this.updateLottoList(tickets);
+      this.hideTicketListStyleToggle();
+      this.activateChargeSubmitForm();
+    }
+  }, {
+    key: "bindEvent",
+    value: function bindEvent() {
+      this.chargeSubmitForm.addEventListener('submit', this.onSubmitCharge.bind(this));
+      this.ticketListStyleToggleInput.addEventListener('click', this.switchLottoListStyle.bind(this));
+    }
+  }, {
+    key: "onSubmitCharge",
+    value: function onSubmitCharge(event) {
+      event.preventDefault();
+      var chargeInputValue = Number(this.chargeInput.value);
+      var purchaseEvent = new CustomEvent('purchaseTicket', {
+        detail: {
+          chargeInputValue: chargeInputValue
+        }
+      });
+      window.dispatchEvent(purchaseEvent);
+    }
+  }, {
+    key: "switchLottoListStyle",
+    value: function switchLottoListStyle() {
+      var style = this.ticketListStyleToggleInput.checked ? 'number' : 'icon';
+      var showLottoList = {
+        icon: this.showLottoIconList.bind(this),
+        number: this.showLottoNumberList.bind(this)
+      };
+      showLottoList[style]();
+    }
+  }, {
+    key: "updateOnPurchase",
+    value: function updateOnPurchase(tickets, charge) {
+      if (tickets.length === _constants_constants__WEBPACK_IMPORTED_MODULE_1__.MAX_NUMBER_PURCHASE) this.disableChargeSubmitForm();
+      if (tickets.length !== 0 && !this.isTicketListStyleToggleVisible()) this.showTicketListStyleToggle();
+      this.updateLottoList(tickets);
+      this.chargeInput.value = charge || '';
+    }
+  }, {
+    key: "updateLottoList",
+    value: function updateLottoList(tickets) {
+      this.totalPurchasedTicketNumber.innerHTML = (0,_template__WEBPACK_IMPORTED_MODULE_2__.lottoTotalNumber)(tickets.length);
+      this.ticketListIcon.innerHTML = _template__WEBPACK_IMPORTED_MODULE_2__.lottoListTemplate.icon(tickets.length);
+      this.ticketListNumber.innerHTML = _template__WEBPACK_IMPORTED_MODULE_2__.lottoListTemplate.number(tickets);
+    }
+  }, {
+    key: "isTicketListStyleToggleVisible",
+    value: function isTicketListStyleToggleVisible() {
+      return !this.ticketListStyleToggleContainer.classList.contains(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "showTicketListStyleToggle",
+    value: function showTicketListStyleToggle() {
+      this.ticketListStyleToggleContainer.classList.remove(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "hideTicketListStyleToggle",
+    value: function hideTicketListStyleToggle() {
+      this.ticketListStyleToggleContainer.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "activateChargeSubmitForm",
+    value: function activateChargeSubmitForm() {
+      this.chargeInput.removeAttribute('disabled');
+      this.chargeSubmitButton.removeAttribute('disabled');
+    }
+  }, {
+    key: "disableChargeSubmitForm",
+    value: function disableChargeSubmitForm() {
+      this.chargeInput.setAttribute('disabled', '');
+      this.chargeSubmitButton.setAttribute('disabled', '');
+    }
+  }, {
+    key: "showLottoIconList",
+    value: function showLottoIconList() {
+      this.ticketListIcon.classList.remove(CLASS_DISPLAY_NONE);
+      this.ticketListNumber.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "showLottoNumberList",
+    value: function showLottoNumberList() {
+      this.ticketListIcon.classList.add(CLASS_DISPLAY_NONE);
+      this.ticketListNumber.classList.remove(CLASS_DISPLAY_NONE);
+    }
+  }]);
+
+  return PurchaseTicketSectionView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/views/WinningResultSectionView.js":
+/*!**************************************************!*\
+  !*** ./src/js/views/WinningResultSectionView.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WinningResultSectionView)
+/* harmony export */ });
+/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+
+var CLASS_DISPLAY_NONE = 'display-none';
+
+var WinningResultSectionView = /*#__PURE__*/function () {
+  function WinningResultSectionView() {
+    _classCallCheck(this, WinningResultSectionView);
+
+    this.winningResultSection = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#winning-result-section');
+    this.winningNumberForm = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#winning-number-form');
+    this.winningNumberInputs = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$$)('.winning-number-input', this.winningNumberForm);
+    this.winningNumberSubmitButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('button', this.winningNumberForm);
+    this.resultModalArea = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#result-modal-area', this.winningResultSection);
+    this.resultModalCloseButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#result-modal-close-button', this.resultModalArea);
+    this.restartButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#restart-button', this.resultModalArea);
+    this.bindEvent();
+  }
+
+  _createClass(WinningResultSectionView, [{
+    key: "bindEvent",
+    value: function bindEvent() {
+      var _this = this;
+
+      this.winningNumberInputs.forEach(function (inputElement, index) {
+        inputElement.addEventListener('keyup', _this.onTypeWinningNumber.bind(_this, index));
+      });
+      this.winningNumberForm.addEventListener('submit', this.onSubmitWinningNumber.bind(this));
+      this.resultModalCloseButton.addEventListener('click', this.closeWinningResultModal.bind(this));
+      this.restartButton.addEventListener('click', this.onClickRestartButton.bind(this));
+    }
+  }, {
+    key: "onTypeWinningNumber",
+    value: function onTypeWinningNumber(inputIndex, event) {
+      var regex = /[^0-9]/;
+      event.target.value = event.target.value.replace(regex, '');
+      if (event.target.value.length >= 2) event.target.value = event.target.value.slice(0, 2);
+      if (event.target.value.length >= 2 && inputIndex !== this.winningNumberInputs.length - 1) this.winningNumberInputs[inputIndex + 1].focus();
+      if (event.target.value.length >= 2 && inputIndex === this.winningNumberInputs.length - 1) this.winningNumberSubmitButton.focus();
+    }
+  }, {
+    key: "onSubmitWinningNumber",
+    value: function onSubmitWinningNumber(event) {
+      event.preventDefault();
+      var winningNumberInputValues = Array.from(this.winningNumberInputs).map(function (numberInput) {
+        return Number(numberInput.value);
+      }).filter(function (number) {
+        return number !== 0;
+      });
+      var winningNumberSubmitEvent = new CustomEvent('checkWinningResult', {
+        detail: {
+          winningNumberInputValues: winningNumberInputValues
+        }
+      });
+      window.dispatchEvent(winningNumberSubmitEvent);
+    }
+  }, {
+    key: "onClickRestartButton",
+    value: function onClickRestartButton() {
+      var restartEvent = new CustomEvent('restart', {});
+      window.dispatchEvent(restartEvent);
+    }
+  }, {
+    key: "initialize",
+    value: function initialize() {
+      this.winningNumberInputs.forEach(function (inputElement) {
+        inputElement.value = '';
+      });
+      this.hideWinningResultSection();
+      this.closeWinningResultModal();
+    }
+  }, {
+    key: "updateOnPurchase",
+    value: function updateOnPurchase(tickets) {
+      if (tickets.length !== 0 && !this.isWinningResultSectionVisible()) this.showWinningResultSection();
+    }
+  }, {
+    key: "updateOnCheckWinningResult",
+    value: function updateOnCheckWinningResult(winningResult) {
+      this.updateWinningResultModal(winningResult);
+      this.openWinningResultModal();
+    }
+  }, {
+    key: "isWinningResultSectionVisible",
+    value: function isWinningResultSectionVisible() {
+      return !this.winningResultSection.classList.contains(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "showWinningResultSection",
+    value: function showWinningResultSection() {
+      this.winningResultSection.classList.remove(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "hideWinningResultSection",
+    value: function hideWinningResultSection() {
+      this.winningResultSection.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "openWinningResultModal",
+    value: function openWinningResultModal() {
+      this.resultModalArea.classList.remove(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "closeWinningResultModal",
+    value: function closeWinningResultModal() {
+      this.resultModalArea.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "updateWinningResultModal",
+    value: function updateWinningResultModal(_ref) {
+      var matchResult = _ref.matchResult,
+          profitRatio = _ref.profitRatio;
+      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$$)('.match-result', this.resultModalArea).forEach(function (resultRow) {
+        (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('.match-count', resultRow).innerText = "".concat(matchResult[_constants_constants__WEBPACK_IMPORTED_MODULE_1__.MATCH_RESULT_INDEX[resultRow.dataset.matchCount]], "\uAC1C");
+        (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('.prize-money', resultRow).innerText = _constants_constants__WEBPACK_IMPORTED_MODULE_1__.PRIZE_MONEY[resultRow.dataset.matchCount].toLocaleString();
+      });
+      (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#profit-ratio', this.resultModalArea).innerText = Math.round(profitRatio);
+    }
+  }]);
+
+  return WinningResultSectionView;
 }();
 
 
@@ -511,16 +878,21 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_reset_css__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./reset.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/reset.css");
 /* harmony import */ var _node_modules_css_loader_dist_cjs_js_util_css__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! -!../../node_modules/css-loader/dist/cjs.js!./util.css */ "./node_modules/css-loader/dist/cjs.js!./src/css/util.css");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../node_modules/css-loader/dist/runtime/getUrl.js */ "./node_modules/css-loader/dist/runtime/getUrl.js");
+/* harmony import */ var _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_4__);
 // Imports
 
 
 
 
+
+var ___CSS_LOADER_URL_IMPORT_0___ = new URL(/* asset import */ __webpack_require__(/*! ../../../../../../images/close-button.svg */ "./images/close-button.svg"), __webpack_require__.b);
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_reset_css__WEBPACK_IMPORTED_MODULE_2__["default"]);
 ___CSS_LOADER_EXPORT___.i(_node_modules_css_loader_dist_cjs_js_util_css__WEBPACK_IMPORTED_MODULE_3__["default"]);
+var ___CSS_LOADER_URL_REPLACEMENT_0___ = _node_modules_css_loader_dist_runtime_getUrl_js__WEBPACK_IMPORTED_MODULE_4___default()(___CSS_LOADER_URL_IMPORT_0___);
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ":root {\r\n  --primary: #00bcd4;\r\n  --lighten: #80deea;\r\n}\r\n\r\nbody {\r\n  background: #f9f9f9;\r\n}\r\n\r\n.app-style {\r\n  box-sizing: border-box;\r\n  width: 430px;\r\n  min-height: 727px;\r\n  background: #ffffff;\r\n  border: 1px solid rgba(0, 0, 0, 0.12);\r\n  border-radius: 4px;\r\n  margin: auto;\r\n  margin-top: 100px;\r\n  padding: 52px 16px 40px;\r\n}\r\n\r\n.lotto-title {\r\n  font-style: normal;\r\n  font-weight: 600;\r\n  font-size: 34px;\r\n  line-height: 36px;\r\n  text-align: center;\r\n  color: #000000;\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.blue-button {\r\n  box-sizing: border-box;\r\n  height: 36px;\r\n  background: var(--primary);\r\n  color: #ffffff;\r\n  font-size: 14px;\r\n  font-weight: bold;\r\n  line-height: 16px;\r\n  border: none;\r\n  border-radius: 4px;\r\n}\r\n\r\n.charge-input-wrap {\r\n  display: flex;\r\n  flex-direction: row;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n}\r\n\r\n.normal-input {\r\n  box-sizing: border-box;\r\n  border: 1px solid #b4b4b4;\r\n  border-radius: 4px;\r\n  padding: 0px 8px;\r\n}\r\n\r\n.no-spin-button::-webkit-outer-spin-button,\r\n.no-spin-button::-webkit-inner-spin-button {\r\n  -webkit-appearance: none;\r\n  margin: 0;\r\n}\r\n\r\n.normal-text {\r\n  display: block;\r\n  font-weight: normal;\r\n  font-size: 15px;\r\n  line-height: 24px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.purchased-lotto-section,\r\n.winner-number-input-wrap {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.lotto-icon {\r\n  font-weight: 600;\r\n  font-size: 32px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.lotto-list-icon-style {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  align-items: center;\r\n}\r\n\r\n.lotto-list-number li {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 36px;\r\n}\r\n\r\n.show-number-toggle {\r\n  mix-blend-mode: normal;\r\n  opacity: 0.38;\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 34px;\r\n  height: 14px;\r\n  margin-top: 7px;\r\n}\r\n\r\n.show-number-toggle input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\r\n}\r\n\r\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: rgba(33, 33, 33, 0.08);\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n  border-radius: 7px;\r\n}\r\n\r\n.slider:before {\r\n  position: absolute;\r\n  content: '';\r\n  height: 20px;\r\n  width: 20px;\r\n  left: 0px;\r\n  top: -3px;\r\n  border-radius: 50%;\r\n  background-color: white;\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n\r\n  background: #ededed;\r\n  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\ninput:checked + .slider {\r\n  background-color: var(--lighten);\r\n}\r\n\r\ninput:checked + .slider:before {\r\n  background: var(--primary);\r\n  -webkit-transform: translateX(14px);\r\n  -ms-transform: translateX(14px);\r\n  transform: translateX(14px);\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AAGA;EACE,kBAAkB;EAClB,kBAAkB;AACpB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,sBAAsB;EACtB,YAAY;EACZ,iBAAiB;EACjB,mBAAmB;EACnB,qCAAqC;EACrC,kBAAkB;EAClB,YAAY;EACZ,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,kBAAkB;EAClB,cAAc;EACd,mBAAmB;AACrB;;AAEA;EACE,sBAAsB;EACtB,YAAY;EACZ,0BAA0B;EAC1B,cAAc;EACd,eAAe;EACf,iBAAiB;EACjB,iBAAiB;EACjB,YAAY;EACZ,kBAAkB;AACpB;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,mBAAmB;EACnB,8BAA8B;AAChC;;AAEA;EACE,sBAAsB;EACtB,yBAAyB;EACzB,kBAAkB;EAClB,gBAAgB;AAClB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,cAAc;EACd,mBAAmB;EACnB,eAAe;EACf,iBAAiB;EACjB,0BAA0B;AAC5B;;AAEA;;EAEE,aAAa;EACb,8BAA8B;AAChC;;AAEA;EACE,gBAAgB;EAChB,eAAe;EACf,0BAA0B;AAC5B;;AAEA;EACE,aAAa;EACb,eAAe;EACf,mBAAmB;AACrB;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,YAAY;AACd;;AAEA;EACE,sBAAsB;EACtB,aAAa;EACb,kBAAkB;EAClB,qBAAqB;EACrB,WAAW;EACX,YAAY;EACZ,eAAe;AACjB;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,SAAS;AACX;;AAEA;EACE,kBAAkB;EAClB,eAAe;EACf,MAAM;EACN,OAAO;EACP,QAAQ;EACR,SAAS;EACT,kCAAkC;EAClC,wBAAwB;EACxB,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,WAAW;EACX,SAAS;EACT,SAAS;EACT,kBAAkB;EAClB,uBAAuB;EACvB,wBAAwB;EACxB,gBAAgB;;EAEhB,mBAAmB;EACnB,4GAA4G;AAC9G;;AAEA;EACE,gCAAgC;AAClC;;AAEA;EACE,0BAA0B;EAC1B,mCAAmC;EACnC,+BAA+B;EAC/B,2BAA2B;AAC7B","sourcesContent":["@import url('reset.css');\r\n@import url('util.css');\r\n\r\n:root {\r\n  --primary: #00bcd4;\r\n  --lighten: #80deea;\r\n}\r\n\r\nbody {\r\n  background: #f9f9f9;\r\n}\r\n\r\n.app-style {\r\n  box-sizing: border-box;\r\n  width: 430px;\r\n  min-height: 727px;\r\n  background: #ffffff;\r\n  border: 1px solid rgba(0, 0, 0, 0.12);\r\n  border-radius: 4px;\r\n  margin: auto;\r\n  margin-top: 100px;\r\n  padding: 52px 16px 40px;\r\n}\r\n\r\n.lotto-title {\r\n  font-style: normal;\r\n  font-weight: 600;\r\n  font-size: 34px;\r\n  line-height: 36px;\r\n  text-align: center;\r\n  color: #000000;\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.blue-button {\r\n  box-sizing: border-box;\r\n  height: 36px;\r\n  background: var(--primary);\r\n  color: #ffffff;\r\n  font-size: 14px;\r\n  font-weight: bold;\r\n  line-height: 16px;\r\n  border: none;\r\n  border-radius: 4px;\r\n}\r\n\r\n.charge-input-wrap {\r\n  display: flex;\r\n  flex-direction: row;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n}\r\n\r\n.normal-input {\r\n  box-sizing: border-box;\r\n  border: 1px solid #b4b4b4;\r\n  border-radius: 4px;\r\n  padding: 0px 8px;\r\n}\r\n\r\n.no-spin-button::-webkit-outer-spin-button,\r\n.no-spin-button::-webkit-inner-spin-button {\r\n  -webkit-appearance: none;\r\n  margin: 0;\r\n}\r\n\r\n.normal-text {\r\n  display: block;\r\n  font-weight: normal;\r\n  font-size: 15px;\r\n  line-height: 24px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.purchased-lotto-section,\r\n.winner-number-input-wrap {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.lotto-icon {\r\n  font-weight: 600;\r\n  font-size: 32px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.lotto-list-icon-style {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  align-items: center;\r\n}\r\n\r\n.lotto-list-number li {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 36px;\r\n}\r\n\r\n.show-number-toggle {\r\n  mix-blend-mode: normal;\r\n  opacity: 0.38;\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 34px;\r\n  height: 14px;\r\n  margin-top: 7px;\r\n}\r\n\r\n.show-number-toggle input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\r\n}\r\n\r\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: rgba(33, 33, 33, 0.08);\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n  border-radius: 7px;\r\n}\r\n\r\n.slider:before {\r\n  position: absolute;\r\n  content: '';\r\n  height: 20px;\r\n  width: 20px;\r\n  left: 0px;\r\n  top: -3px;\r\n  border-radius: 50%;\r\n  background-color: white;\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n\r\n  background: #ededed;\r\n  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\ninput:checked + .slider {\r\n  background-color: var(--lighten);\r\n}\r\n\r\ninput:checked + .slider:before {\r\n  background: var(--primary);\r\n  -webkit-transform: translateX(14px);\r\n  -ms-transform: translateX(14px);\r\n  transform: translateX(14px);\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ":root {\r\n  --primary: #00bcd4;\r\n  --lighten: #80deea;\r\n}\r\n\r\nbody {\r\n  background: #f9f9f9;\r\n}\r\n\r\n.app {\r\n  box-sizing: border-box;\r\n  width: 430px;\r\n  min-height: 727px;\r\n  background: #ffffff;\r\n  border: 1px solid rgba(0, 0, 0, 0.12);\r\n  border-radius: 4px;\r\n  margin: auto;\r\n  margin-top: 100px;\r\n  padding: 52px 16px 40px;\r\n}\r\n\r\n.lotto-title {\r\n  font-style: normal;\r\n  font-weight: 600;\r\n  font-size: 34px;\r\n  line-height: 36px;\r\n  text-align: center;\r\n  color: #000000;\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.blue-button {\r\n  cursor: pointer;\r\n  box-sizing: border-box;\r\n  height: 36px;\r\n  background: var(--primary);\r\n  color: #ffffff;\r\n  font-size: 14px;\r\n  font-weight: bold;\r\n  line-height: 16px;\r\n  border: none;\r\n  border-radius: 4px;\r\n}\r\n\r\n.blue-button:disabled {\r\n  cursor: not-allowed;\r\n  background: gray;\r\n}\r\n\r\n.charge-input-wrap {\r\n  display: flex;\r\n  flex-direction: row;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n}\r\n\r\n.normal-input {\r\n  box-sizing: border-box;\r\n  border: 1px solid #b4b4b4;\r\n  border-radius: 4px;\r\n  padding: 0px 8px;\r\n}\r\n\r\n.no-spin-button::-webkit-outer-spin-button,\r\n.no-spin-button::-webkit-inner-spin-button {\r\n  -webkit-appearance: none;\r\n  margin: 0;\r\n}\r\n\r\n.normal-text {\r\n  display: block;\r\n  font-size: 15px;\r\n  line-height: 24px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.purchased-lotto-section,\r\n.winning-number-input-wrap {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.lotto-icon {\r\n  font-weight: 600;\r\n  font-size: 32px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.lotto-list-icon-style {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  align-items: center;\r\n}\r\n\r\n.lotto-list-number li {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 36px;\r\n}\r\n\r\n.show-number-toggle {\r\n  mix-blend-mode: normal;\r\n  opacity: 0.38;\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 34px;\r\n  height: 14px;\r\n  margin-top: 7px;\r\n}\r\n\r\n.show-number-toggle input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\r\n}\r\n\r\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: rgba(33, 33, 33, 0.08);\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n  border-radius: 7px;\r\n}\r\n\r\n.slider:before {\r\n  position: absolute;\r\n  content: '';\r\n  height: 20px;\r\n  width: 20px;\r\n  left: 0px;\r\n  top: -3px;\r\n  border-radius: 50%;\r\n  background-color: white;\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n\r\n  background: #ededed;\r\n  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\ninput:checked + .slider {\r\n  background-color: var(--lighten);\r\n}\r\n\r\ninput:checked + .slider:before {\r\n  background: var(--primary);\r\n  -webkit-transform: translateX(14px);\r\n  -ms-transform: translateX(14px);\r\n  transform: translateX(14px);\r\n}\r\n\r\n.dimmed {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100vw;\r\n  height: 100vh;\r\n  background: rgba(0, 0, 0, 0.5);\r\n}\r\n\r\n.result-modal {\r\n  position: absolute;\r\n  left: 50%;\r\n  top: 50%;\r\n  transform: translate(-50%, -50%);\r\n\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n\r\n  box-sizing: border-box;\r\n  width: 350px;\r\n  height: 500px;\r\n  padding: 40px 16px 50px;\r\n  background: #ffffff;\r\n  border: none;\r\n  border-radius: 4px;\r\n}\r\n\r\n.modal-title {\r\n  font-weight: 600;\r\n  font-size: 20px;\r\n  line-height: 24px;\r\n  text-align: center;\r\n  letter-spacing: 0.15px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n\r\n  margin-bottom: 32px;\r\n}\r\n\r\ntable {\r\n  width: 100%;\r\n  margin-bottom: 16px;\r\n\r\n  text-align: center;\r\n  border-collapse: collapse;\r\n  border-top: solid 1px rgba(220, 220, 220, 1);\r\n\r\n  font-size: 15px;\r\n  line-height: 24px;\r\n  letter-spacing: 0.5px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\ntr {\r\n  box-sizing: border-box;\r\n  height: 40px;\r\n  padding: 0 8px;\r\n  border-bottom: solid 1px rgba(220, 220, 220, 1);\r\n}\r\n\r\nth {\r\n  font-weight: 600;\r\n}\r\n\r\nth,\r\ntd {\r\n  vertical-align: middle;\r\n}\r\n\r\n.close-button {\r\n  cursor: pointer;\r\n  position: fixed;\r\n  right: 16px;\r\n  top: 16px;\r\n  width: 14px;\r\n  height: 14px;\r\n\r\n  border: none;\r\n  background: url(" + ___CSS_LOADER_URL_REPLACEMENT_0___ + ") no-repeat;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/css/index.css"],"names":[],"mappings":"AAGA;EACE,kBAAkB;EAClB,kBAAkB;AACpB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,sBAAsB;EACtB,YAAY;EACZ,iBAAiB;EACjB,mBAAmB;EACnB,qCAAqC;EACrC,kBAAkB;EAClB,YAAY;EACZ,iBAAiB;EACjB,uBAAuB;AACzB;;AAEA;EACE,kBAAkB;EAClB,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,kBAAkB;EAClB,cAAc;EACd,mBAAmB;AACrB;;AAEA;EACE,eAAe;EACf,sBAAsB;EACtB,YAAY;EACZ,0BAA0B;EAC1B,cAAc;EACd,eAAe;EACf,iBAAiB;EACjB,iBAAiB;EACjB,YAAY;EACZ,kBAAkB;AACpB;;AAEA;EACE,mBAAmB;EACnB,gBAAgB;AAClB;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,mBAAmB;EACnB,8BAA8B;AAChC;;AAEA;EACE,sBAAsB;EACtB,yBAAyB;EACzB,kBAAkB;EAClB,gBAAgB;AAClB;;AAEA;;EAEE,wBAAwB;EACxB,SAAS;AACX;;AAEA;EACE,cAAc;EACd,eAAe;EACf,iBAAiB;EACjB,0BAA0B;AAC5B;;AAEA;;EAEE,aAAa;EACb,8BAA8B;AAChC;;AAEA;EACE,gBAAgB;EAChB,eAAe;EACf,0BAA0B;AAC5B;;AAEA;EACE,aAAa;EACb,eAAe;EACf,mBAAmB;AACrB;;AAEA;EACE,aAAa;EACb,mBAAmB;EACnB,YAAY;AACd;;AAEA;EACE,sBAAsB;EACtB,aAAa;EACb,kBAAkB;EAClB,qBAAqB;EACrB,WAAW;EACX,YAAY;EACZ,eAAe;AACjB;;AAEA;EACE,UAAU;EACV,QAAQ;EACR,SAAS;AACX;;AAEA;EACE,kBAAkB;EAClB,eAAe;EACf,MAAM;EACN,OAAO;EACP,QAAQ;EACR,SAAS;EACT,kCAAkC;EAClC,wBAAwB;EACxB,gBAAgB;EAChB,kBAAkB;AACpB;;AAEA;EACE,kBAAkB;EAClB,WAAW;EACX,YAAY;EACZ,WAAW;EACX,SAAS;EACT,SAAS;EACT,kBAAkB;EAClB,uBAAuB;EACvB,wBAAwB;EACxB,gBAAgB;;EAEhB,mBAAmB;EACnB,4GAA4G;AAC9G;;AAEA;EACE,gCAAgC;AAClC;;AAEA;EACE,0BAA0B;EAC1B,mCAAmC;EACnC,+BAA+B;EAC/B,2BAA2B;AAC7B;;AAEA;EACE,eAAe;EACf,MAAM;EACN,OAAO;EACP,YAAY;EACZ,aAAa;EACb,8BAA8B;AAChC;;AAEA;EACE,kBAAkB;EAClB,SAAS;EACT,QAAQ;EACR,gCAAgC;;EAEhC,aAAa;EACb,sBAAsB;EACtB,mBAAmB;;EAEnB,sBAAsB;EACtB,YAAY;EACZ,aAAa;EACb,uBAAuB;EACvB,mBAAmB;EACnB,YAAY;EACZ,kBAAkB;AACpB;;AAEA;EACE,gBAAgB;EAChB,eAAe;EACf,iBAAiB;EACjB,kBAAkB;EAClB,sBAAsB;EACtB,0BAA0B;;EAE1B,mBAAmB;AACrB;;AAEA;EACE,WAAW;EACX,mBAAmB;;EAEnB,kBAAkB;EAClB,yBAAyB;EACzB,4CAA4C;;EAE5C,eAAe;EACf,iBAAiB;EACjB,qBAAqB;EACrB,0BAA0B;AAC5B;;AAEA;EACE,sBAAsB;EACtB,YAAY;EACZ,cAAc;EACd,+CAA+C;AACjD;;AAEA;EACE,gBAAgB;AAClB;;AAEA;;EAEE,sBAAsB;AACxB;;AAEA;EACE,eAAe;EACf,eAAe;EACf,WAAW;EACX,SAAS;EACT,WAAW;EACX,YAAY;;EAEZ,YAAY;EACZ,6DAAqD;AACvD","sourcesContent":["@import url('reset.css');\r\n@import url('util.css');\r\n\r\n:root {\r\n  --primary: #00bcd4;\r\n  --lighten: #80deea;\r\n}\r\n\r\nbody {\r\n  background: #f9f9f9;\r\n}\r\n\r\n.app {\r\n  box-sizing: border-box;\r\n  width: 430px;\r\n  min-height: 727px;\r\n  background: #ffffff;\r\n  border: 1px solid rgba(0, 0, 0, 0.12);\r\n  border-radius: 4px;\r\n  margin: auto;\r\n  margin-top: 100px;\r\n  padding: 52px 16px 40px;\r\n}\r\n\r\n.lotto-title {\r\n  font-style: normal;\r\n  font-weight: 600;\r\n  font-size: 34px;\r\n  line-height: 36px;\r\n  text-align: center;\r\n  color: #000000;\r\n  margin-bottom: 16px;\r\n}\r\n\r\n.blue-button {\r\n  cursor: pointer;\r\n  box-sizing: border-box;\r\n  height: 36px;\r\n  background: var(--primary);\r\n  color: #ffffff;\r\n  font-size: 14px;\r\n  font-weight: bold;\r\n  line-height: 16px;\r\n  border: none;\r\n  border-radius: 4px;\r\n}\r\n\r\n.blue-button:disabled {\r\n  cursor: not-allowed;\r\n  background: gray;\r\n}\r\n\r\n.charge-input-wrap {\r\n  display: flex;\r\n  flex-direction: row;\r\n  align-items: center;\r\n  justify-content: space-between;\r\n}\r\n\r\n.normal-input {\r\n  box-sizing: border-box;\r\n  border: 1px solid #b4b4b4;\r\n  border-radius: 4px;\r\n  padding: 0px 8px;\r\n}\r\n\r\n.no-spin-button::-webkit-outer-spin-button,\r\n.no-spin-button::-webkit-inner-spin-button {\r\n  -webkit-appearance: none;\r\n  margin: 0;\r\n}\r\n\r\n.normal-text {\r\n  display: block;\r\n  font-size: 15px;\r\n  line-height: 24px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.purchased-lotto-section,\r\n.winning-number-input-wrap {\r\n  display: flex;\r\n  justify-content: space-between;\r\n}\r\n\r\n.lotto-icon {\r\n  font-weight: 600;\r\n  font-size: 32px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\n.lotto-list-icon-style {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  align-items: center;\r\n}\r\n\r\n.lotto-list-number li {\r\n  display: flex;\r\n  align-items: center;\r\n  height: 36px;\r\n}\r\n\r\n.show-number-toggle {\r\n  mix-blend-mode: normal;\r\n  opacity: 0.38;\r\n  position: relative;\r\n  display: inline-block;\r\n  width: 34px;\r\n  height: 14px;\r\n  margin-top: 7px;\r\n}\r\n\r\n.show-number-toggle input {\r\n  opacity: 0;\r\n  width: 0;\r\n  height: 0;\r\n}\r\n\r\n.slider {\r\n  position: absolute;\r\n  cursor: pointer;\r\n  top: 0;\r\n  left: 0;\r\n  right: 0;\r\n  bottom: 0;\r\n  background: rgba(33, 33, 33, 0.08);\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n  border-radius: 7px;\r\n}\r\n\r\n.slider:before {\r\n  position: absolute;\r\n  content: '';\r\n  height: 20px;\r\n  width: 20px;\r\n  left: 0px;\r\n  top: -3px;\r\n  border-radius: 50%;\r\n  background-color: white;\r\n  -webkit-transition: 0.4s;\r\n  transition: 0.4s;\r\n\r\n  background: #ededed;\r\n  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(0, 0, 0, 0.12), 0px 1px 3px rgba(0, 0, 0, 0.2);\r\n}\r\n\r\ninput:checked + .slider {\r\n  background-color: var(--lighten);\r\n}\r\n\r\ninput:checked + .slider:before {\r\n  background: var(--primary);\r\n  -webkit-transform: translateX(14px);\r\n  -ms-transform: translateX(14px);\r\n  transform: translateX(14px);\r\n}\r\n\r\n.dimmed {\r\n  position: fixed;\r\n  top: 0;\r\n  left: 0;\r\n  width: 100vw;\r\n  height: 100vh;\r\n  background: rgba(0, 0, 0, 0.5);\r\n}\r\n\r\n.result-modal {\r\n  position: absolute;\r\n  left: 50%;\r\n  top: 50%;\r\n  transform: translate(-50%, -50%);\r\n\r\n  display: flex;\r\n  flex-direction: column;\r\n  align-items: center;\r\n\r\n  box-sizing: border-box;\r\n  width: 350px;\r\n  height: 500px;\r\n  padding: 40px 16px 50px;\r\n  background: #ffffff;\r\n  border: none;\r\n  border-radius: 4px;\r\n}\r\n\r\n.modal-title {\r\n  font-weight: 600;\r\n  font-size: 20px;\r\n  line-height: 24px;\r\n  text-align: center;\r\n  letter-spacing: 0.15px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n\r\n  margin-bottom: 32px;\r\n}\r\n\r\ntable {\r\n  width: 100%;\r\n  margin-bottom: 16px;\r\n\r\n  text-align: center;\r\n  border-collapse: collapse;\r\n  border-top: solid 1px rgba(220, 220, 220, 1);\r\n\r\n  font-size: 15px;\r\n  line-height: 24px;\r\n  letter-spacing: 0.5px;\r\n  color: rgba(0, 0, 0, 0.87);\r\n}\r\n\r\ntr {\r\n  box-sizing: border-box;\r\n  height: 40px;\r\n  padding: 0 8px;\r\n  border-bottom: solid 1px rgba(220, 220, 220, 1);\r\n}\r\n\r\nth {\r\n  font-weight: 600;\r\n}\r\n\r\nth,\r\ntd {\r\n  vertical-align: middle;\r\n}\r\n\r\n.close-button {\r\n  cursor: pointer;\r\n  position: fixed;\r\n  right: 16px;\r\n  top: 16px;\r\n  width: 14px;\r\n  height: 14px;\r\n\r\n  border: none;\r\n  background: url('/images/close-button.svg') no-repeat;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -572,7 +944,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()((_node_modules_css_loader_dist_runtime_sourceMaps_js__WEBPACK_IMPORTED_MODULE_0___default()));
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, ".width-34px {\r\n  width: 34px;\r\n}\r\n\r\n.width-56px {\r\n  width: 56px;\r\n}\r\n\r\n.width-80 {\r\n  width: 80%;\r\n}\r\n\r\n.width-100 {\r\n  width: 100%;\r\n}\r\n\r\n.height-36px {\r\n  height: 36px;\r\n}\r\n\r\n.height-100 {\r\n  height: 100%;\r\n}\r\n\r\n.margin-left-8px {\r\n  margin-left: 8px;\r\n}\r\n\r\n.margin-bottom-8px {\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.margin-bottom-24px {\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.margin-bottom-28px {\r\n  margin-bottom: 28px;\r\n}\r\n\r\n.margin-bottom-32px {\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.align-end {\r\n  text-align: end;\r\n}\r\n\r\n.visually-hidden {\r\n  position: absolute;\r\n  clip: rect(0 0 0 0);\r\n  width: 1px;\r\n  height: 1px;\r\n  margin: -1px;\r\n  overflow: hidden;\r\n}\r\n\r\n.display-none {\r\n  display: none !important;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/css/util.css"],"names":[],"mappings":"AAAA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,UAAU;AACZ;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;EACnB,UAAU;EACV,WAAW;EACX,YAAY;EACZ,gBAAgB;AAClB;;AAEA;EACE,wBAAwB;AAC1B","sourcesContent":[".width-34px {\r\n  width: 34px;\r\n}\r\n\r\n.width-56px {\r\n  width: 56px;\r\n}\r\n\r\n.width-80 {\r\n  width: 80%;\r\n}\r\n\r\n.width-100 {\r\n  width: 100%;\r\n}\r\n\r\n.height-36px {\r\n  height: 36px;\r\n}\r\n\r\n.height-100 {\r\n  height: 100%;\r\n}\r\n\r\n.margin-left-8px {\r\n  margin-left: 8px;\r\n}\r\n\r\n.margin-bottom-8px {\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.margin-bottom-24px {\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.margin-bottom-28px {\r\n  margin-bottom: 28px;\r\n}\r\n\r\n.margin-bottom-32px {\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.align-end {\r\n  text-align: end;\r\n}\r\n\r\n.visually-hidden {\r\n  position: absolute;\r\n  clip: rect(0 0 0 0);\r\n  width: 1px;\r\n  height: 1px;\r\n  margin: -1px;\r\n  overflow: hidden;\r\n}\r\n\r\n.display-none {\r\n  display: none !important;\r\n}\r\n"],"sourceRoot":""}]);
+___CSS_LOADER_EXPORT___.push([module.id, ".width-34px {\r\n  width: 34px;\r\n}\r\n\r\n.width-56px {\r\n  width: 56px;\r\n}\r\n\r\n.width-152px {\r\n  width: 152px;\r\n}\r\n\r\n.width-80 {\r\n  width: 80%;\r\n}\r\n\r\n.width-100 {\r\n  width: 100%;\r\n}\r\n\r\n.height-36px {\r\n  height: 36px;\r\n}\r\n\r\n.height-100 {\r\n  height: 100%;\r\n}\r\n\r\n.margin-left-8px {\r\n  margin-left: 8px;\r\n}\r\n\r\n.margin-bottom-8px {\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.margin-bottom-24px {\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.margin-bottom-28px {\r\n  margin-bottom: 28px;\r\n}\r\n\r\n.margin-bottom-32px {\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.text-align-center {\r\n  text-align: center;\r\n}\r\n\r\n.text-align-end {\r\n  text-align: end;\r\n}\r\n\r\n.font-weight-border {\r\n  font-weight: 600;\r\n}\r\n\r\n.visually-hidden {\r\n  position: absolute;\r\n  clip: rect(0 0 0 0);\r\n  width: 1px;\r\n  height: 1px;\r\n  margin: -1px;\r\n  overflow: hidden;\r\n}\r\n\r\n.display-none {\r\n  display: none !important;\r\n}\r\n", "",{"version":3,"sources":["webpack://./src/css/util.css"],"names":[],"mappings":"AAAA;EACE,WAAW;AACb;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,UAAU;AACZ;;AAEA;EACE,WAAW;AACb;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,YAAY;AACd;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,mBAAmB;AACrB;;AAEA;EACE,kBAAkB;AACpB;;AAEA;EACE,eAAe;AACjB;;AAEA;EACE,gBAAgB;AAClB;;AAEA;EACE,kBAAkB;EAClB,mBAAmB;EACnB,UAAU;EACV,WAAW;EACX,YAAY;EACZ,gBAAgB;AAClB;;AAEA;EACE,wBAAwB;AAC1B","sourcesContent":[".width-34px {\r\n  width: 34px;\r\n}\r\n\r\n.width-56px {\r\n  width: 56px;\r\n}\r\n\r\n.width-152px {\r\n  width: 152px;\r\n}\r\n\r\n.width-80 {\r\n  width: 80%;\r\n}\r\n\r\n.width-100 {\r\n  width: 100%;\r\n}\r\n\r\n.height-36px {\r\n  height: 36px;\r\n}\r\n\r\n.height-100 {\r\n  height: 100%;\r\n}\r\n\r\n.margin-left-8px {\r\n  margin-left: 8px;\r\n}\r\n\r\n.margin-bottom-8px {\r\n  margin-bottom: 8px;\r\n}\r\n\r\n.margin-bottom-24px {\r\n  margin-bottom: 24px;\r\n}\r\n\r\n.margin-bottom-28px {\r\n  margin-bottom: 28px;\r\n}\r\n\r\n.margin-bottom-32px {\r\n  margin-bottom: 32px;\r\n}\r\n\r\n.text-align-center {\r\n  text-align: center;\r\n}\r\n\r\n.text-align-end {\r\n  text-align: end;\r\n}\r\n\r\n.font-weight-border {\r\n  font-weight: 600;\r\n}\r\n\r\n.visually-hidden {\r\n  position: absolute;\r\n  clip: rect(0 0 0 0);\r\n  width: 1px;\r\n  height: 1px;\r\n  margin: -1px;\r\n  overflow: hidden;\r\n}\r\n\r\n.display-none {\r\n  display: none !important;\r\n}\r\n"],"sourceRoot":""}]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -686,6 +1058,44 @@ module.exports = function (cssWithMappingToString) {
   };
 
   return list;
+};
+
+/***/ }),
+
+/***/ "./node_modules/css-loader/dist/runtime/getUrl.js":
+/*!********************************************************!*\
+  !*** ./node_modules/css-loader/dist/runtime/getUrl.js ***!
+  \********************************************************/
+/***/ ((module) => {
+
+
+
+module.exports = function (url, options) {
+  if (!options) {
+    options = {};
+  }
+
+  if (!url) {
+    return url;
+  }
+
+  url = String(url.__esModule ? url.default : url); // If url is already wrapped in quotes, remove them
+
+  if (/^['"].*['"]$/.test(url)) {
+    url = url.slice(1, -1);
+  }
+
+  if (options.hash) {
+    url += options.hash;
+  } // Should url be wrapped?
+  // See https://drafts.csswg.org/css-values-3/#urls
+
+
+  if (/["'() \t\n]|(%20)/.test(url) || options.needQuotes) {
+    return "\"".concat(url.replace(/"/g, '\\"').replace(/\n/g, "\\n"), "\"");
+  }
+
+  return url;
 };
 
 /***/ }),
@@ -1079,6 +1489,16 @@ function styleTagTransform(css, styleElement) {
 
 module.exports = styleTagTransform;
 
+/***/ }),
+
+/***/ "./images/close-button.svg":
+/*!*********************************!*\
+  !*** ./images/close-button.svg ***!
+  \*********************************/
+/***/ ((module, __unused_webpack_exports, __webpack_require__) => {
+
+module.exports = __webpack_require__.p + "fbd1de2f83cda5ed3d38.svg";
+
 /***/ })
 
 /******/ 	});
@@ -1107,6 +1527,9 @@ module.exports = styleTagTransform;
 /******/ 		return module.exports;
 /******/ 	}
 /******/ 	
+/******/ 	// expose the modules object (__webpack_modules__)
+/******/ 	__webpack_require__.m = __webpack_modules__;
+/******/ 	
 /************************************************************************/
 /******/ 	/* webpack/runtime/compat get default export */
 /******/ 	(() => {
@@ -1132,6 +1555,18 @@ module.exports = styleTagTransform;
 /******/ 		};
 /******/ 	})();
 /******/ 	
+/******/ 	/* webpack/runtime/global */
+/******/ 	(() => {
+/******/ 		__webpack_require__.g = (function() {
+/******/ 			if (typeof globalThis === 'object') return globalThis;
+/******/ 			try {
+/******/ 				return this || new Function('return this')();
+/******/ 			} catch (e) {
+/******/ 				if (typeof window === 'object') return window;
+/******/ 			}
+/******/ 		})();
+/******/ 	})();
+/******/ 	
 /******/ 	/* webpack/runtime/hasOwnProperty shorthand */
 /******/ 	(() => {
 /******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
@@ -1146,6 +1581,52 @@ module.exports = styleTagTransform;
 /******/ 			}
 /******/ 			Object.defineProperty(exports, '__esModule', { value: true });
 /******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/publicPath */
+/******/ 	(() => {
+/******/ 		var scriptUrl;
+/******/ 		if (__webpack_require__.g.importScripts) scriptUrl = __webpack_require__.g.location + "";
+/******/ 		var document = __webpack_require__.g.document;
+/******/ 		if (!scriptUrl && document) {
+/******/ 			if (document.currentScript)
+/******/ 				scriptUrl = document.currentScript.src
+/******/ 			if (!scriptUrl) {
+/******/ 				var scripts = document.getElementsByTagName("script");
+/******/ 				if(scripts.length) scriptUrl = scripts[scripts.length - 1].src
+/******/ 			}
+/******/ 		}
+/******/ 		// When supporting browsers where an automatic publicPath is not supported you must specify an output.publicPath manually via configuration
+/******/ 		// or pass an empty string ("") and set the __webpack_public_path__ variable from your code to use your own logic.
+/******/ 		if (!scriptUrl) throw new Error("Automatic publicPath is not supported in this browser");
+/******/ 		scriptUrl = scriptUrl.replace(/#.*$/, "").replace(/\?.*$/, "").replace(/\/[^\/]+$/, "/");
+/******/ 		__webpack_require__.p = scriptUrl;
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/jsonp chunk loading */
+/******/ 	(() => {
+/******/ 		__webpack_require__.b = document.baseURI || self.location.href;
+/******/ 		
+/******/ 		// object to store loaded and loading chunks
+/******/ 		// undefined = chunk not loaded, null = chunk preloaded/prefetched
+/******/ 		// [resolve, reject, Promise] = chunk loading, 0 = chunk loaded
+/******/ 		var installedChunks = {
+/******/ 			"main": 0
+/******/ 		};
+/******/ 		
+/******/ 		// no chunk on demand loading
+/******/ 		
+/******/ 		// no prefetching
+/******/ 		
+/******/ 		// no preloaded
+/******/ 		
+/******/ 		// no HMR
+/******/ 		
+/******/ 		// no HMR manifest
+/******/ 		
+/******/ 		// no on chunks loaded
+/******/ 		
+/******/ 		// no jsonp function
 /******/ 	})();
 /******/ 	
 /************************************************************************/
