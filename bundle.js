@@ -61,9 +61,20 @@ var LotteryTicket = /*#__PURE__*/function () {
   }, {
     key: "generateNumbersAutomatically",
     value: function generateNumbersAutomatically() {
-      return (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.generateIntegerArray)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.MAX).sort(function () {
-        return Math.random() - 0.5;
-      }).slice(0, _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.LENGTH);
+      var numbers = [];
+
+      var _loop = function _loop() {
+        var randomNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.generateRandomInRange)(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.MIN, _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.MAX);
+        if (!numbers.find(function (number) {
+          return number === randomNumber;
+        })) numbers.push(randomNumber);
+      };
+
+      while (numbers.length !== _constants_constants__WEBPACK_IMPORTED_MODULE_0__.LOTTERY_TICKET_NUMBER.LENGTH) {
+        _loop();
+      }
+
+      return numbers;
     }
   }]);
 
@@ -143,7 +154,7 @@ var LotteryTicketManager = /*#__PURE__*/function () {
           remainCharge = _this$calculateForPur.remainCharge;
 
       if (newTicketCount === 0) {
-        alert("\uBCF5\uAD8C\uC740 \uCD5C\uB300 ".concat(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.MAX_NUMBER_PURCHASE, "\uC7A5\uAE4C\uC9C0 \uAD6C\uC785 \uAC00\uB2A5\uD569\uB2C8\uB2E4. \uB354 \uC774\uC0C1 \uAD6C\uC785\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4."));
+        alert(_constants_constants__WEBPACK_IMPORTED_MODULE_0__.ERROR_MESSAGE.CAN_NOT_PURCHASE);
       }
 
       this.generateNewLottos(newTicketCount);
@@ -242,9 +253,9 @@ var LottoMachine = /*#__PURE__*/function () {
   _createClass(LottoMachine, [{
     key: "bindEvent",
     value: function bindEvent() {
-      window.addEventListener('purchaseTicket', this.purchaseLotteryTicket.bind(this));
-      window.addEventListener('checkWinningResult', this.checkWinningResult.bind(this));
-      window.addEventListener('restart', this.restart.bind(this));
+      this.lottoMachineView.app.addEventListener('purchaseTicket', this.purchaseLotteryTicket.bind(this));
+      this.lottoMachineView.app.addEventListener('checkWinningResult', this.checkWinningResult.bind(this));
+      this.lottoMachineView.app.addEventListener('restart', this.restart.bind(this));
     }
   }, {
     key: "purchaseLotteryTicket",
@@ -376,7 +387,8 @@ var ERROR_MESSAGE = {
   WINNING_NUMBERS_NOT_INTEGER: '당첨 번호와 보너스 번호는 정수로 입력해주세요.',
   WINNING_NUMBERS_NOT_IN_RANGE: '당첨 번호와 보너스 번호는 1 이상 45 이하 범위 내로 입력해주세요.',
   WINNING_NUMBERS_DUPLICATED: '당첨 번호와 보너스 번호에 중복이 있습니다.',
-  NO_PURCHASED_TICKET: '구입한 티켓이 없습니다.'
+  NO_PURCHASED_TICKET: '구입한 티켓이 없습니다.',
+  CAN_NOT_PURCHASE: "\uBCF5\uAD8C\uC740 \uCD5C\uB300 ".concat(MAX_NUMBER_PURCHASE, "\uC7A5\uAE4C\uC9C0 \uAD6C\uC785 \uAC00\uB2A5\uD569\uB2C8\uB2E4. \uB354 \uC774\uC0C1 \uAD6C\uC785\uD560 \uC218 \uC5C6\uC2B5\uB2C8\uB2E4.")
 };
 var MATCH_RESULT_INDEX = {
   3: 0,
@@ -405,7 +417,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "$": () => (/* binding */ $),
 /* harmony export */   "$$": () => (/* binding */ $$),
-/* harmony export */   "generateIntegerArray": () => (/* binding */ generateIntegerArray),
+/* harmony export */   "generateRandomInRange": () => (/* binding */ generateRandomInRange),
 /* harmony export */   "divider": () => (/* binding */ divider)
 /* harmony export */ });
 var $ = function $(selector) {
@@ -416,14 +428,8 @@ var $$ = function $$(selector) {
   var node = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : document;
   return node.querySelectorAll(selector);
 };
-var generateIntegerArray = function generateIntegerArray(end) {
-  var start = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-  var emptyArray = [];
-  emptyArray.length = end - start + 1;
-  emptyArray.fill(null);
-  return emptyArray.map(function (_, index) {
-    return index + start;
-  });
+var generateRandomInRange = function generateRandomInRange(min, max) {
+  return Math.floor(Math.random() * (max + 1 - min)) + min;
 };
 var divider = function divider(dividend, divisor) {
   return {
@@ -494,18 +500,18 @@ var validateWinningNumbers = function validateWinningNumbers(winningNumbers) {
 
 /***/ }),
 
-/***/ "./src/js/views/LottoMachineView.js":
-/*!******************************************!*\
-  !*** ./src/js/views/LottoMachineView.js ***!
-  \******************************************/
+/***/ "./src/js/views/ChargeSubmitFormView.js":
+/*!**********************************************!*\
+  !*** ./src/js/views/ChargeSubmitFormView.js ***!
+  \**********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ LottoMachineView)
+/* harmony export */   "default": () => (/* binding */ ChargeSubmitFormView)
 /* harmony export */ });
-/* harmony import */ var _WinningResultSectionView__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./WinningResultSectionView */ "./src/js/views/WinningResultSectionView.js");
-/* harmony import */ var _PurchaseTicketSectionView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PurchaseTicketSectionView */ "./src/js/views/PurchaseTicketSectionView.js");
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
+/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -515,93 +521,34 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-var LottoMachineView = /*#__PURE__*/function () {
-  function LottoMachineView() {
-    _classCallCheck(this, LottoMachineView);
+var ChargeSubmitFormView = /*#__PURE__*/function () {
+  function ChargeSubmitFormView(app) {
+    _classCallCheck(this, ChargeSubmitFormView);
 
-    this.purchaseTicketSectionView = new _PurchaseTicketSectionView__WEBPACK_IMPORTED_MODULE_1__["default"]();
-    this.winningResultSectionView = new _WinningResultSectionView__WEBPACK_IMPORTED_MODULE_0__["default"]();
-  }
-
-  _createClass(LottoMachineView, [{
-    key: "initialize",
-    value: function initialize(lottos) {
-      this.purchaseTicketSectionView.initialize(lottos);
-      this.winningResultSectionView.initialize();
-    }
-  }, {
-    key: "updateOnPurchase",
-    value: function updateOnPurchase(tickets, charge) {
-      this.purchaseTicketSectionView.updateOnPurchase(tickets, charge);
-      this.winningResultSectionView.updateOnPurchase(tickets);
-    }
-  }, {
-    key: "updateOnCheckWinningResult",
-    value: function updateOnCheckWinningResult(winningResult) {
-      this.winningResultSectionView.updateOnCheckWinningResult(winningResult);
-    }
-  }]);
-
-  return LottoMachineView;
-}();
-
-
-
-/***/ }),
-
-/***/ "./src/js/views/PurchaseTicketSectionView.js":
-/*!***************************************************!*\
-  !*** ./src/js/views/PurchaseTicketSectionView.js ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ PurchaseTicketSectionView)
-/* harmony export */ });
-/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
-/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
-/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./template */ "./src/js/views/template.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-
-
-
-var CLASS_DISPLAY_NONE = 'display-none';
-
-var PurchaseTicketSectionView = /*#__PURE__*/function () {
-  function PurchaseTicketSectionView() {
-    _classCallCheck(this, PurchaseTicketSectionView);
-
-    this.purchaseTicketSection = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#purchase-ticket-section');
-    this.chargeSubmitForm = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#charge-submit-form', this.purchaseTicketSection);
-    this.chargeInput = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('input', this.chargeSubmitForm);
-    this.chargeSubmitButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('button', this.chargeSubmitForm);
-    this.ticketListStyleToggleContainer = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#show-number-toggle-container', this.purchaseTicketSection);
-    this.ticketListStyleToggleInput = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#show-number-toggle-input', this.ticketListStyleToggleContainer);
-    this.totalPurchasedTicketNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-total-number', this.purchaseTicketSection);
-    this.ticketListIcon = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-list-icon', this.purchaseTicketSection);
-    this.ticketListNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-list-number', this.purchaseTicketSection);
+    this.app = app;
+    this.purchaseTicketSection = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)('#purchase-ticket-section', this.app);
+    this.chargeSubmitForm = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)('#charge-submit-form', this.purchaseTicketSection);
+    this.chargeInput = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)('input', this.chargeSubmitForm);
+    this.chargeSubmitButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_1__.$)('button', this.chargeSubmitForm);
     this.bindEvent();
   }
 
-  _createClass(PurchaseTicketSectionView, [{
+  _createClass(ChargeSubmitFormView, [{
     key: "initialize",
-    value: function initialize(tickets) {
+    value: function initialize() {
       this.chargeInput.value = '';
-      this.updateLottoList(tickets);
-      this.hideTicketListStyleToggle();
       this.activateChargeSubmitForm();
     }
   }, {
     key: "bindEvent",
     value: function bindEvent() {
+      this.chargeInput.addEventListener('keyup', this.onTypeCharge.bind(this));
       this.chargeSubmitForm.addEventListener('submit', this.onSubmitCharge.bind(this));
-      this.ticketListStyleToggleInput.addEventListener('click', this.switchLottoListStyle.bind(this));
+    }
+  }, {
+    key: "onTypeCharge",
+    value: function onTypeCharge(event) {
+      if (Number(event.target.value) === 0) event.target.value = '';
     }
   }, {
     key: "onSubmitCharge",
@@ -613,47 +560,13 @@ var PurchaseTicketSectionView = /*#__PURE__*/function () {
           chargeInputValue: chargeInputValue
         }
       });
-      window.dispatchEvent(purchaseEvent);
-    }
-  }, {
-    key: "switchLottoListStyle",
-    value: function switchLottoListStyle() {
-      var style = this.ticketListStyleToggleInput.checked ? 'number' : 'icon';
-      var showLottoList = {
-        icon: this.showLottoIconList.bind(this),
-        number: this.showLottoNumberList.bind(this)
-      };
-      showLottoList[style]();
+      this.app.dispatchEvent(purchaseEvent);
     }
   }, {
     key: "updateOnPurchase",
     value: function updateOnPurchase(tickets, charge) {
-      if (tickets.length === _constants_constants__WEBPACK_IMPORTED_MODULE_1__.MAX_NUMBER_PURCHASE) this.disableChargeSubmitForm();
-      if (tickets.length !== 0 && !this.isTicketListStyleToggleVisible()) this.showTicketListStyleToggle();
-      this.updateLottoList(tickets);
+      if (tickets.length === _constants_constants__WEBPACK_IMPORTED_MODULE_0__.MAX_NUMBER_PURCHASE) this.disableChargeSubmitForm();
       this.chargeInput.value = charge || '';
-    }
-  }, {
-    key: "updateLottoList",
-    value: function updateLottoList(tickets) {
-      this.totalPurchasedTicketNumber.innerHTML = (0,_template__WEBPACK_IMPORTED_MODULE_2__.lottoTotalNumber)(tickets.length);
-      this.ticketListIcon.innerHTML = _template__WEBPACK_IMPORTED_MODULE_2__.lottoListTemplate.icon(tickets.length);
-      this.ticketListNumber.innerHTML = _template__WEBPACK_IMPORTED_MODULE_2__.lottoListTemplate.number(tickets);
-    }
-  }, {
-    key: "isTicketListStyleToggleVisible",
-    value: function isTicketListStyleToggleVisible() {
-      return !this.ticketListStyleToggleContainer.classList.contains(CLASS_DISPLAY_NONE);
-    }
-  }, {
-    key: "showTicketListStyleToggle",
-    value: function showTicketListStyleToggle() {
-      this.ticketListStyleToggleContainer.classList.remove(CLASS_DISPLAY_NONE);
-    }
-  }, {
-    key: "hideTicketListStyleToggle",
-    value: function hideTicketListStyleToggle() {
-      this.ticketListStyleToggleContainer.classList.add(CLASS_DISPLAY_NONE);
     }
   }, {
     key: "activateChargeSubmitForm",
@@ -667,39 +580,157 @@ var PurchaseTicketSectionView = /*#__PURE__*/function () {
       this.chargeInput.setAttribute('disabled', '');
       this.chargeSubmitButton.setAttribute('disabled', '');
     }
-  }, {
-    key: "showLottoIconList",
-    value: function showLottoIconList() {
-      this.ticketListIcon.classList.remove(CLASS_DISPLAY_NONE);
-      this.ticketListNumber.classList.add(CLASS_DISPLAY_NONE);
-    }
-  }, {
-    key: "showLottoNumberList",
-    value: function showLottoNumberList() {
-      this.ticketListIcon.classList.add(CLASS_DISPLAY_NONE);
-      this.ticketListNumber.classList.remove(CLASS_DISPLAY_NONE);
-    }
   }]);
 
-  return PurchaseTicketSectionView;
+  return ChargeSubmitFormView;
 }();
 
 
 
 /***/ }),
 
-/***/ "./src/js/views/WinningResultSectionView.js":
-/*!**************************************************!*\
-  !*** ./src/js/views/WinningResultSectionView.js ***!
-  \**************************************************/
+/***/ "./src/js/views/LottoMachineView.js":
+/*!******************************************!*\
+  !*** ./src/js/views/LottoMachineView.js ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ WinningResultSectionView)
+/* harmony export */   "default": () => (/* binding */ LottoMachineView)
 /* harmony export */ });
 /* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
-/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
+/* harmony import */ var _ChargeSubmitFormView__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ChargeSubmitFormView */ "./src/js/views/ChargeSubmitFormView.js");
+/* harmony import */ var _PurchasedTicketListSectionView__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PurchasedTicketListSectionView */ "./src/js/views/PurchasedTicketListSectionView.js");
+/* harmony import */ var _WinningResultModalView__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./WinningResultModalView */ "./src/js/views/WinningResultModalView.js");
+/* harmony import */ var _WinningNumberSubmitFormView__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./WinningNumberSubmitFormView */ "./src/js/views/WinningNumberSubmitFormView.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+function _classPrivateFieldInitSpec(obj, privateMap, value) { _checkPrivateRedeclaration(obj, privateMap); privateMap.set(obj, value); }
+
+function _checkPrivateRedeclaration(obj, privateCollection) { if (privateCollection.has(obj)) { throw new TypeError("Cannot initialize the same private elements twice on an object"); } }
+
+function _classPrivateFieldGet(receiver, privateMap) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "get"); return _classApplyDescriptorGet(receiver, descriptor); }
+
+function _classApplyDescriptorGet(receiver, descriptor) { if (descriptor.get) { return descriptor.get.call(receiver); } return descriptor.value; }
+
+function _classPrivateFieldSet(receiver, privateMap, value) { var descriptor = _classExtractFieldDescriptor(receiver, privateMap, "set"); _classApplyDescriptorSet(receiver, descriptor, value); return value; }
+
+function _classExtractFieldDescriptor(receiver, privateMap, action) { if (!privateMap.has(receiver)) { throw new TypeError("attempted to " + action + " private field on non-instance"); } return privateMap.get(receiver); }
+
+function _classApplyDescriptorSet(receiver, descriptor, value) { if (descriptor.set) { descriptor.set.call(receiver, value); } else { if (!descriptor.writable) { throw new TypeError("attempted to set read only private field"); } descriptor.value = value; } }
+
+
+
+
+
+
+
+var _app = /*#__PURE__*/new WeakMap();
+
+var _chargeSubmitFormView = /*#__PURE__*/new WeakMap();
+
+var _purchasedTicketListSectionView = /*#__PURE__*/new WeakMap();
+
+var _winningNumberSubmitFormView = /*#__PURE__*/new WeakMap();
+
+var _winningResultModalView = /*#__PURE__*/new WeakMap();
+
+var LottoMachineView = /*#__PURE__*/function () {
+  function LottoMachineView() {
+    _classCallCheck(this, LottoMachineView);
+
+    _classPrivateFieldInitSpec(this, _app, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldInitSpec(this, _chargeSubmitFormView, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldInitSpec(this, _purchasedTicketListSectionView, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldInitSpec(this, _winningNumberSubmitFormView, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldInitSpec(this, _winningResultModalView, {
+      writable: true,
+      value: void 0
+    });
+
+    _classPrivateFieldSet(this, _app, (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#app'));
+
+    _classPrivateFieldSet(this, _chargeSubmitFormView, new _ChargeSubmitFormView__WEBPACK_IMPORTED_MODULE_1__["default"](_classPrivateFieldGet(this, _app)));
+
+    _classPrivateFieldSet(this, _purchasedTicketListSectionView, new _PurchasedTicketListSectionView__WEBPACK_IMPORTED_MODULE_2__["default"](_classPrivateFieldGet(this, _app)));
+
+    _classPrivateFieldSet(this, _winningNumberSubmitFormView, new _WinningNumberSubmitFormView__WEBPACK_IMPORTED_MODULE_4__["default"](_classPrivateFieldGet(this, _app)));
+
+    _classPrivateFieldSet(this, _winningResultModalView, new _WinningResultModalView__WEBPACK_IMPORTED_MODULE_3__["default"](_classPrivateFieldGet(this, _app)));
+  }
+
+  _createClass(LottoMachineView, [{
+    key: "app",
+    get: function get() {
+      return _classPrivateFieldGet(this, _app);
+    }
+  }, {
+    key: "initialize",
+    value: function initialize(lottos) {
+      _classPrivateFieldGet(this, _chargeSubmitFormView).initialize();
+
+      _classPrivateFieldGet(this, _purchasedTicketListSectionView).initialize(lottos);
+
+      _classPrivateFieldGet(this, _winningNumberSubmitFormView).initialize();
+
+      _classPrivateFieldGet(this, _winningResultModalView).initialize();
+    }
+  }, {
+    key: "updateOnPurchase",
+    value: function updateOnPurchase(tickets, charge) {
+      _classPrivateFieldGet(this, _chargeSubmitFormView).updateOnPurchase(tickets, charge);
+
+      _classPrivateFieldGet(this, _purchasedTicketListSectionView).updateOnPurchase(tickets);
+
+      _classPrivateFieldGet(this, _winningNumberSubmitFormView).updateOnPurchase(tickets);
+    }
+  }, {
+    key: "updateOnCheckWinningResult",
+    value: function updateOnCheckWinningResult(winningResult) {
+      _classPrivateFieldGet(this, _winningResultModalView).updateOnCheckWinningResult(winningResult);
+    }
+  }]);
+
+  return LottoMachineView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/views/PurchasedTicketListSectionView.js":
+/*!********************************************************!*\
+  !*** ./src/js/views/PurchasedTicketListSectionView.js ***!
+  \********************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ PurchasedTicketListSectionView)
+/* harmony export */ });
+/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
+/* harmony import */ var _template__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./template */ "./src/js/views/template.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -710,21 +741,112 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 var CLASS_DISPLAY_NONE = 'display-none';
 
-var WinningResultSectionView = /*#__PURE__*/function () {
-  function WinningResultSectionView() {
-    _classCallCheck(this, WinningResultSectionView);
+var PurchasedTicketListSectionView = /*#__PURE__*/function () {
+  function PurchasedTicketListSectionView(app) {
+    _classCallCheck(this, PurchasedTicketListSectionView);
 
-    this.winningResultSection = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#winning-result-section');
-    this.winningNumberForm = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#winning-number-form');
-    this.winningNumberInputs = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$$)('.winning-number-input', this.winningNumberForm);
-    this.winningNumberSubmitButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('button', this.winningNumberForm);
-    this.resultModalArea = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#result-modal-area', this.winningResultSection);
-    this.resultModalCloseButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#result-modal-close-button', this.resultModalArea);
-    this.restartButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#restart-button', this.resultModalArea);
+    this.app = app;
+    this.purchaseTicketSection = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#purchase-ticket-section', this.app);
+    this.ticketListStyleToggleContainer = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#show-number-toggle-container', this.purchaseTicketSection);
+    this.ticketListStyleToggleInput = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#show-number-toggle-input', this.ticketListStyleToggleContainer);
+    this.totalPurchasedTicketNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-total-number', this.purchaseTicketSection);
+    this.ticketListIcon = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-list-icon', this.purchaseTicketSection);
+    this.ticketListNumber = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#lotto-list-number', this.purchaseTicketSection);
     this.bindEvent();
   }
 
-  _createClass(WinningResultSectionView, [{
+  _createClass(PurchasedTicketListSectionView, [{
+    key: "initialize",
+    value: function initialize(tickets) {
+      this.updateLottoList(tickets);
+      this.changeTicketListStyleToggleVisibility();
+    }
+  }, {
+    key: "bindEvent",
+    value: function bindEvent() {
+      this.ticketListStyleToggleInput.addEventListener('click', this.onClickTicketListStyleToggleInput.bind(this));
+    }
+  }, {
+    key: "onClickTicketListStyleToggleInput",
+    value: function onClickTicketListStyleToggleInput() {
+      this.changeLottoIconListVisibility();
+      this.changeLottoNumberListVisibility();
+    }
+  }, {
+    key: "updateOnPurchase",
+    value: function updateOnPurchase(tickets) {
+      if (tickets.length !== 0 && this.isInvisibleTicketListStyleToggle()) this.changeTicketListStyleToggleVisibility();
+      this.updateLottoList(tickets);
+    }
+  }, {
+    key: "updateLottoList",
+    value: function updateLottoList(tickets) {
+      this.totalPurchasedTicketNumber.innerHTML = (0,_template__WEBPACK_IMPORTED_MODULE_1__.lottoTotalNumber)(tickets.length);
+      this.ticketListIcon.innerHTML = _template__WEBPACK_IMPORTED_MODULE_1__.lottoListTemplate.icon(tickets.length);
+      this.ticketListNumber.innerHTML = _template__WEBPACK_IMPORTED_MODULE_1__.lottoListTemplate.number(tickets);
+    }
+  }, {
+    key: "isInvisibleTicketListStyleToggle",
+    value: function isInvisibleTicketListStyleToggle() {
+      return this.ticketListStyleToggleContainer.classList.contains(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "changeTicketListStyleToggleVisibility",
+    value: function changeTicketListStyleToggleVisibility() {
+      return this.ticketListStyleToggleContainer.classList.contains(CLASS_DISPLAY_NONE) ? this.ticketListStyleToggleContainer.classList.remove(CLASS_DISPLAY_NONE) : this.ticketListStyleToggleContainer.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "changeLottoIconListVisibility",
+    value: function changeLottoIconListVisibility() {
+      return this.ticketListIcon.classList.contains(CLASS_DISPLAY_NONE) ? this.ticketListIcon.classList.remove(CLASS_DISPLAY_NONE) : this.ticketListIcon.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }, {
+    key: "changeLottoNumberListVisibility",
+    value: function changeLottoNumberListVisibility() {
+      return this.ticketListNumber.classList.contains(CLASS_DISPLAY_NONE) ? this.ticketListNumber.classList.remove(CLASS_DISPLAY_NONE) : this.ticketListNumber.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }]);
+
+  return PurchasedTicketListSectionView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/views/WinningNumberSubmitFormView.js":
+/*!*****************************************************!*\
+  !*** ./src/js/views/WinningNumberSubmitFormView.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WinningNumberSubmitFormView)
+/* harmony export */ });
+/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+var CLASS_DISPLAY_NONE = 'display-none';
+
+var WinningNumberSubmitFormView = /*#__PURE__*/function () {
+  function WinningNumberSubmitFormView(app) {
+    _classCallCheck(this, WinningNumberSubmitFormView);
+
+    this.app = app;
+    this.winningResultSection = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#winning-result-section', this.app);
+    this.winningNumberForm = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#winning-number-form', this.winningResultSection);
+    this.winningNumberInputs = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$$)('.winning-number-input', this.winningNumberForm);
+    this.winningNumberSubmitButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('button', this.winningNumberForm);
+    this.bindEvent();
+  }
+
+  _createClass(WinningNumberSubmitFormView, [{
     key: "bindEvent",
     value: function bindEvent() {
       var _this = this;
@@ -733,8 +855,6 @@ var WinningResultSectionView = /*#__PURE__*/function () {
         inputElement.addEventListener('keyup', _this.onTypeWinningNumber.bind(_this, index));
       });
       this.winningNumberForm.addEventListener('submit', this.onSubmitWinningNumber.bind(this));
-      this.resultModalCloseButton.addEventListener('click', this.closeWinningResultModal.bind(this));
-      this.restartButton.addEventListener('click', this.onClickRestartButton.bind(this));
     }
   }, {
     key: "onTypeWinningNumber",
@@ -759,13 +879,7 @@ var WinningResultSectionView = /*#__PURE__*/function () {
           winningNumberInputValues: winningNumberInputValues
         }
       });
-      window.dispatchEvent(winningNumberSubmitEvent);
-    }
-  }, {
-    key: "onClickRestartButton",
-    value: function onClickRestartButton() {
-      var restartEvent = new CustomEvent('restart', {});
-      window.dispatchEvent(restartEvent);
+      this.app.dispatchEvent(winningNumberSubmitEvent);
     }
   }, {
     key: "initialize",
@@ -773,19 +887,12 @@ var WinningResultSectionView = /*#__PURE__*/function () {
       this.winningNumberInputs.forEach(function (inputElement) {
         inputElement.value = '';
       });
-      this.hideWinningResultSection();
-      this.closeWinningResultModal();
+      this.changeWinningResultSectionVisibility();
     }
   }, {
     key: "updateOnPurchase",
     value: function updateOnPurchase(tickets) {
-      if (tickets.length !== 0 && !this.isWinningResultSectionVisible()) this.showWinningResultSection();
-    }
-  }, {
-    key: "updateOnCheckWinningResult",
-    value: function updateOnCheckWinningResult(winningResult) {
-      this.updateWinningResultModal(winningResult);
-      this.openWinningResultModal();
+      if (tickets.length !== 0 && !this.isWinningResultSectionVisible()) this.changeWinningResultSectionVisibility();
     }
   }, {
     key: "isWinningResultSectionVisible",
@@ -793,24 +900,79 @@ var WinningResultSectionView = /*#__PURE__*/function () {
       return !this.winningResultSection.classList.contains(CLASS_DISPLAY_NONE);
     }
   }, {
-    key: "showWinningResultSection",
-    value: function showWinningResultSection() {
-      this.winningResultSection.classList.remove(CLASS_DISPLAY_NONE);
+    key: "changeWinningResultSectionVisibility",
+    value: function changeWinningResultSectionVisibility() {
+      return this.winningResultSection.classList.contains(CLASS_DISPLAY_NONE) ? this.winningResultSection.classList.remove(CLASS_DISPLAY_NONE) : this.winningResultSection.classList.add(CLASS_DISPLAY_NONE);
+    }
+  }]);
+
+  return WinningNumberSubmitFormView;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/js/views/WinningResultModalView.js":
+/*!************************************************!*\
+  !*** ./src/js/views/WinningResultModalView.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ WinningResultModalView)
+/* harmony export */ });
+/* harmony import */ var _utils_util__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils/util */ "./src/js/utils/util.js");
+/* harmony import */ var _constants_constants__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../constants/constants */ "./src/js/constants/constants.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+
+
+
+var CLASS_DISPLAY_NONE = 'display-none';
+
+var WinningResultModalView = /*#__PURE__*/function () {
+  function WinningResultModalView(app) {
+    _classCallCheck(this, WinningResultModalView);
+
+    this.app = app;
+    this.resultModalArea = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#result-modal-area', this.winningResultSection);
+    this.resultModalCloseButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#result-modal-close-button', this.resultModalArea);
+    this.restartButton = (0,_utils_util__WEBPACK_IMPORTED_MODULE_0__.$)('#restart-button', this.resultModalArea);
+    this.bindEvent();
+  }
+
+  _createClass(WinningResultModalView, [{
+    key: "bindEvent",
+    value: function bindEvent() {
+      this.resultModalCloseButton.addEventListener('click', this.changeResultModalVisibility.bind(this));
+      this.restartButton.addEventListener('click', this.onClickRestartButton.bind(this));
     }
   }, {
-    key: "hideWinningResultSection",
-    value: function hideWinningResultSection() {
-      this.winningResultSection.classList.add(CLASS_DISPLAY_NONE);
+    key: "onClickRestartButton",
+    value: function onClickRestartButton() {
+      var restartEvent = new CustomEvent('restart', {});
+      this.app.dispatchEvent(restartEvent);
     }
   }, {
-    key: "openWinningResultModal",
-    value: function openWinningResultModal() {
-      this.resultModalArea.classList.remove(CLASS_DISPLAY_NONE);
+    key: "initialize",
+    value: function initialize() {
+      this.changeResultModalVisibility();
     }
   }, {
-    key: "closeWinningResultModal",
-    value: function closeWinningResultModal() {
-      this.resultModalArea.classList.add(CLASS_DISPLAY_NONE);
+    key: "updateOnCheckWinningResult",
+    value: function updateOnCheckWinningResult(winningResult) {
+      this.updateWinningResultModal(winningResult);
+      this.changeResultModalVisibility();
+    }
+  }, {
+    key: "changeResultModalVisibility",
+    value: function changeResultModalVisibility() {
+      return this.resultModalArea.classList.contains(CLASS_DISPLAY_NONE) ? this.resultModalArea.classList.remove(CLASS_DISPLAY_NONE) : this.resultModalArea.classList.add(CLASS_DISPLAY_NONE);
     }
   }, {
     key: "updateWinningResultModal",
@@ -825,7 +987,7 @@ var WinningResultSectionView = /*#__PURE__*/function () {
     }
   }]);
 
-  return WinningResultSectionView;
+  return WinningResultModalView;
 }();
 
 
@@ -1497,7 +1659,7 @@ module.exports = styleTagTransform;
   \*********************************/
 /***/ ((module, __unused_webpack_exports, __webpack_require__) => {
 
-module.exports = __webpack_require__.p + "fbd1de2f83cda5ed3d38.svg";
+module.exports = __webpack_require__.p + "35f3c19f9a0f54f8bb5e.svg";
 
 /***/ })
 
@@ -1638,10 +1800,10 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _css_index_css__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./css/index.css */ "./src/css/index.css");
-/* harmony import */ var _js_LottoMachine_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/LottoMachine.js */ "./src/js/LottoMachine.js");
+/* harmony import */ var _js_LottoMachine__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/LottoMachine */ "./src/js/LottoMachine.js");
 
 
-var lottoMachine = new _js_LottoMachine_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
+var lottoMachine = new _js_LottoMachine__WEBPACK_IMPORTED_MODULE_1__["default"]();
 })();
 
 /******/ })()
