@@ -15,7 +15,7 @@ export default class LotteryTicket {
   generateNumbersAutomatically() {
     const numbers = [];
 
-    while (numbers.length !== LOTTERY_TICKET_NUMBER.LENGTH) {
+    while (numbers.length < LOTTERY_TICKET_NUMBER.LENGTH) {
       const randomNumber = generateRandomInRange(
         LOTTERY_TICKET_NUMBER.MIN,
         LOTTERY_TICKET_NUMBER.MAX
