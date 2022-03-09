@@ -2,15 +2,20 @@ import { countMatchNumber, calculateMatchResult, calculateProfitRatio } from '..
 import LotteryTicket from '../LotteryTicket';
 
 describe('결과 확인 테스트', () => {
-  const winningNumber = [12, 28, 22, 37, 19, 23];
-  const ticketNumber = [
-    [12, 28, 22, 37, 19, 23], // 6개 일치
-    [12, 28, 22, 37, 19, 21], // 5개 일치 + 보너스 일치
-    [12, 28, 22, 37, 19, 45], // 5개 일치
-    [12, 28, 22, 37, 14, 20], // 4개 일치
-    [12, 28, 22, 31, 34, 45], // 3개 일치
-    [12, 28, 30, 31, 34, 45], // 2개 일치
-  ]
+  let winningNumber;
+  let ticketNumber;
+
+  beforeEach(() => {
+    winningNumber = [12, 28, 22, 37, 19, 23];
+    ticketNumber = [
+      [12, 28, 22, 37, 19, 23], // 6개 일치
+      [12, 28, 22, 37, 19, 21], // 5개 일치 + 보너스 일치
+      [12, 28, 22, 37, 19, 45], // 5개 일치
+      [12, 28, 22, 37, 14, 20], // 4개 일치
+      [12, 28, 22, 31, 34, 45], // 3개 일치
+      [12, 28, 30, 31, 34, 45], // 2개 일치
+    ];  
+  })
 
   it('주어진 로또 숫자와 당첨 번호가 일치하는 숫자의 개수를 확인한다.', () => {
     expect(countMatchNumber(ticketNumber[0], winningNumber)).toEqual(6);
